@@ -1,3 +1,5 @@
+
+
 function calcMatrix(setA, setB, setC) {
     const op = new Function("a","b","c", "return " + expr.value);
     const a = setA.getMatrix();   
@@ -104,6 +106,45 @@ function doStage(permut, stage)
     }
 }
 
+////////////////////////////////////////////
 
+{
+   let elements = ["a", "b", "c", "ab", "bc", "ac", "abc"].sort();
+   let fs = [];
+   for (let i = 1; i < 2**elements.length; i++) {
+       let line = i.toString(2);
+       let f = elements.filter((_, j) => line[j] == '1');
+       f = f.join('-');
+       if (isUnique(f, fs)) fs.push(f);
+       
+   }
+   console.log(fs); ////
+}
 
+function isUnique(f, fs) {
+    let permuts = ["abc", "acb",  "bac",  "bca",  "cab",  "cba"];
+    let twins = [];
+    for (let p of permuts) {
+        // "b-ba-ca"
+        let bro = replaceAll(f, p);
+
+        if (bro == "a-abc-ac") {
+            let xxx = 1;
+        }
+
+        // ["b", "ba", "ca"] => [[b], [a,b], [a,c]] => ["b", "ab", "ac"]
+        bro = bro.split('-').map(x => x.split('').sort().join(''));
+        //  ["ab", "ac", "b"] => "ab-ac-b"
+        bro = bro.sort().join('-');
+        if (fs.includes(bro)) 
+           return false;
+    }
+    return true;
+}
+
+function replaceAll(s, p) {
+    return s.split('')
+        .map(x => x == 'a' ? p[0] : x == 'b' ? p[1] : x == 'c' ? p[2] : x )
+        .join('');       
+}
 
