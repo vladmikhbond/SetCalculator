@@ -19,13 +19,14 @@ btnC.addEventListener('click', function(e) {
 })
 
 btnGo.addEventListener('click', function(e) {
-    
+    current =  null;
+    let matrix = calcMatrix(setA, setB, setC);
+    draw(matrix);   
+})
+
+btnStage.addEventListener('click', function(e) {
     setStage(setA, setB, setC);
     draw();
-       
-    // current =  null;
-    // let matrix = calcMatrix(setA, setB, setC);
-    // draw(matrix);   
 })
 
 
