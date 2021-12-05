@@ -1,16 +1,30 @@
 <html>
     <body>
-        <div style="margin-bottom: 6px;">
-            <button id="btnA" style="background-color: red; color: white">A</button>
-            <button id="btnB" style="background-color: green; color: white">B</button>
-            <button id="btnC" style="background-color: blue; color: white">C</button>
-            <input type="text" id="expr" style="width: 285px;" value="a && b && c">
-            <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
-        </div>
-        <canvas id="canvas" width="400" height="400" style="border: solid thin"></canvas>
+        
+            <div style="margin-bottom: 6px;">
+                <button id="btnA" style="background-color: red; color: white">A</button> 
+                <input type="text" id="inputA" style="width: 480px; border-color: red" value="12345">              
+            </div>
+            <div style="margin-bottom: 6px;">
+                <button id="btnB" style="background-color: green; color: white">B</button>
+                <input type="text" id="inputB" style="width: 480px; border-color: green" value="12367">              
+            </div>
+            <div style="margin-bottom: 6px;">
+                <button id="btnC" style="background-color: blue; color: white">C</button>
+                <input type="text" id="inputC" style="width: 480px; border-color:blue" value="12389">              
+            </div>
+            <div style="margin-bottom: 6px;">
+                <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
+                <input type="text" id="expr" style="width: 240px;" value="a && b && c">
+                <span id="info" style="width: 235px;" ></span>
+            </div>
+        
+        <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>
           
-        <script src="global.js"></script>
-        <script src="model.js"></script>
-        <script src="work.js"></script>
+        <script src="src/global.js"></script>
+        <script src="src/classes.js"></script>
+        <script src="src/model.js"></script>
+        <script src="src/view.js"></script>
+        <script src="src/controller.js"></script>
     </body>
 </html>
