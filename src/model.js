@@ -57,25 +57,25 @@ function getVariants(a,b,c) {
 function decode(variants) 
 {     
     const stages = [
-
-        ["a", "ax = 0; ay=0;"],
-        ["ab",   "ax = 0; ay = 0; bx = 0; by = 0;"],
-        ["a-ab", "ax = 0; ay = 0; bx = 0; by = 0;"],
-        ["abc",      "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["a-abc",    "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["ab-abc",   "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["a-ab-abc", "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["ab-ac",     "ax = 0; ay = 0; bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"],
-        ["a-ab-ac",   "ax = 0; ay = 0; bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
-        ["ab-abc-ac", "ax = 0; ay = 0; bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
-        ["a-ab-abc-ac",  "ax = 0; ay = 0; bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
-        ["a-b", "ax = -ar; ay = 0; bx = br + 10; by = 0;"],
-        ["a-ab-b",  "ax = -ar/2; ay = 0; bx = br/2; by = 0;"],
-        ["a-abc-b", "ax = 0; ay = 0; bx = ar -(2*cr - br); by = 0; cx = ar-cr; cy = 0;"], // 12345, 3456, 345
-        // ["a-ab-abc-b", [x, y], [x, y], [x, y]],
-        // ["ac-b", [x, y], [x, y], [x, y]],
-        // ["a-ac-b", [x, y], [x, y], [x, y]],
-        // ["ab-ac-b", [x, y], [x, y], [x, y]],
+         // ax = 0; ay = 0;   - по умолчанию
+        ["a", ""],
+        ["ab",   "bx = 0; by = 0;"],
+        ["a-ab", "bx = 0; by = 0;"],
+        ["abc",      "bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["a-abc",    "bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["ab-abc",   "bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["a-ab-abc", "bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["ab-ac",     "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"],
+        ["a-ab-ac",   "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
+        ["ab-abc-ac", "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
+        ["a-ab-abc-ac",  "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
+        ["a-b", "bx = ar + br + 10; by = 0;"],      
+        ["a-ab-b",  "bx = (ar + br)/2; by = 0;"],   // 12345   3456
+        ["a-abc-b", "bx = ar -(2*cr - br); by = 0; cx = ar-cr; cy = 0;"], // 12345, 3456, 345
+        ["a-ab-abc-b", "bx = br; by = 0; cx = ar-cr; cy = 0;"],  // 12 345, 345 67,  45 
+        ["ac-b", "bx = ar + br + 10; by = 0; cx = 0; cy = 0;"],  // 1234, 5678, 1234, 
+        ["a-ac-b", "bx = ar + br + 10; by = 0; cx = ar - cr; cy = 0;"],  // 1234, 5678, 123, 
+        ["ab-ac-b", "bx = -br + ar -2* cr; by = 0; cx = ar - cr; cy = 0;"],  // 1234, 3456, 12, 
         // ["a-ab-ac-b", [x, y], [x, y], [x, y]],
         // ["abc-ac-b", [x, y], [x, y], [x, y]],
         // ["a-abc-ac-b", [x, y], [x, y], [x, y]],
@@ -120,12 +120,9 @@ function decode(variants)
 
 function doStage(permut, stage) 
 {
-    // permut -> [0,2,1]
-    //let permutIndices = permut.split('').map(x => x == 'a' ? 0 : x == 'b' ? 1 : 2 );
-
     let params = "a, b, c, x, y";
     let body = "ax = bx = cx = x; ay = by = cy = y; ar = a.r; br = b.r; cr = c.r;"
-    body += "\n" + stage[1].replace(/=/g, '+=');
+    body += stage[1].replace(/=/g, '+=');
     body += "a.x=ax; a.y=ay; a.r=ar;   b.x=bx; b.y=by; b.r=br;   c.x=cx; c.y=cy; c.r=cr;";
     const func = new Function(params, body);
 
