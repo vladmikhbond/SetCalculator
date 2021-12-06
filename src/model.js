@@ -54,97 +54,109 @@ function getVariants(a,b,c) {
 
 // variants = [{formula:"a-ac-b-c", permut: "acb"}, ...]
 //
-function decode(variants) {
-    let x = canvas.width / 2, y = canvas.height / 2;
-    let R = Math.max(setA.r, setB.r, setC.r);       // max radius
-    let r = Math.min(setA.r, setB.r, setC.r);       // min radius
-    let rR = setA.r + setB.r + setC.r - R - r;      // middle radius
-     
+function decode(variants) 
+{     
     const stages = [
-        ["a-b-c", [x - R, y-R], [x + R, y-R], [x, y+R]],
-        ["a-ac-b-c", [x - r/2, y-R], [x, y + R], [x + r/2, y-R]],
-        ["a-ac-b", [x - r/2, y-R], [x, y + R], [x - r/2, y-R]],
-        ["a-ac-b-bc-c", [x - R, y], [x+R, y], [x, y]],
-        ["a-ac-b-bc",   [x - R, y], [x+r, y], [x, y]],
 
-        ["a-ab-ac", [x, y], [x-rR, y], [x+r, y]],
-        ["ab-ac",   [x, y], [x-R + rR, y], [x+R-r, y]],
-        ["a-ab-abc-ac", [x, y], [x-r, y], [x+r, y]],
-        ["a-ab-abc", [x,y], [x,y], [x,y]],
-        ["a-ab-abc-ac-c", [x,y], [x,y], [x + R - r,y]],
-        ["a-ab-ac-c", [x,y], [x,y], [x + R, y]],
+        ["a", "ax = 0; ay=0;"],
+        ["ab", "ax = 0; ay = 0; bx = 0; by = 0;"],
+        ["a-ab", "ax = 0; ay = 0; bx = 0; by = 0;"],
+        ["abc", "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["a-abc", "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["ab-abc", "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
+        ["a-ab-abc", "ax = 0; ay = 0; bx = 0; by = 0; cx = 0; cy = 0;"],
+
+        ["ab-ac", "ax = 0; ay = 0; bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"],
+        ["a-ab-ac", "ax = 0; ay = 0; bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"],
+
+        // ["ab-abc-ac", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-ac", [x, y], [x, y], [x, y]],
+        // ["a-b", [x, y], [x, y], [x, y]],
+        // ["a-ab-b", [x, y], [x, y], [x, y]],
+        // ["a-abc-b", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-b", [x, y], [x, y], [x, y]],
+        // ["ac-b", [x, y], [x, y], [x, y]],
+        // ["a-ac-b", [x, y], [x, y], [x, y]],
+        // ["ab-ac-b", [x, y], [x, y], [x, y]],
+        // ["a-ab-ac-b", [x, y], [x, y], [x, y]],
+        // ["abc-ac-b", [x, y], [x, y], [x, y]],
+        // ["a-abc-ac-b", [x, y], [x, y], [x, y]],
+        // ["ab-abc-ac-b", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-ac-b", [x, y], [x, y], [x, y]],
+        // ["ab-ac-bc", [x, y], [x, y], [x, y]],
+        // ["a-ab-ac-bc", [x, y], [x, y], [x, y]],
+        // ["ab-abc-ac-bc", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-ac-bc", [x, y], [x, y], [x, y]],
+        // ["a-ac-b-bc", [x, y], [x, y], [x, y]],
+        // ["a-ab-ac-b-bc", [x, y], [x, y], [x, y]],
+        // ["a-abc-ac-b-bc", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-ac-b-bc", [x, y], [x, y], [x, y]],
+        // ["a-b-c", [x, y], [x, y], [x, y]],
+        // ["a-ab-b-c", [x, y], [x, y], [x, y]],
+        // ["a-abc-b-c", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-b-c", [x, y], [x, y], [x, y]],
+        // ["a-ab-ac-b-c", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-ac-b-c", [x, y], [x, y], [x, y]],
+        // ["a-ab-ac-b-bc-c", [x, y], [x, y], [x, y]],
+        // ["a-ab-abc-ac-b-bc-c", [x, y], [x, y], [x, y]],
         
-        ["a-ab-abc-ac-b-bc-c", [x - rR, y], [x + r, y], [x, y]],
-        ["a-abc-b-c",  [x - R/2, y], [x + rR/2, y], [x, y]],
-        ["a-ab-abc-b",  [x - rR, y], [x + r, y], [x, y]],
+
+        //-----------------------------------------
+        // ["a-b-c", [x - R, y-R], [x + R, y-R], [x, y+R]],
+        // ["a-ac-b-c", [x - r/2, y-R], [x, y + R], [x + r/2, y-R]],
+        // ["a-ac-b", [x - r/2, y-R], [x, y + R], [x - r/2, y-R]],
+        // ["a-ac-b-bc-c", [x - R, y], [x+R, y], [x, y]],
+        // ["a-ac-b-bc",   [x - R, y], [x+r, y], [x, y]],
+
+        // ["a-ab-ac", [x, y], [x-m, y], [x+r, y]],
+        // ["ab-ac",   [x, y], [x-R + m, y], [x+R-r, y]],
+        // ["a-ab-abc-ac", [x, y], [x-r, y], [x+r, y]],
+        // ["a-ab-abc", [x,y], [x,y], [x,y]],
+        // ["a-ab-abc-ac-c", [x,y], [x,y], [x + R - r,y]],
+        // ["a-ab-ac-c", [x,y], [x,y], [x + R, y]],
+        
+        // ["a-ab-abc-ac-b-bc-c", [x - m, y], [x + r, y], [x, y]],
+        // ["a-abc-b-c",  [x - R/2, y], [x + m/2, y], [x, y]],
+        // ["a-ab-abc-b",  [x - m, y], [x + r, y], [x, y]],
+        //-----------------------------------------
     ];
 
 
-    let formulas = variants.map(x => x.formula);
+    let formulaVariants = variants.map(x => x.formula);
+    let formula; 
     for (let stage of stages) 
-    {        
-        let i = formulas.indexOf(stage[0]);
+    {       
+        formula = stage[0]; 
+        let i = formulaVariants.indexOf(formula);
         if (i != -1) {
-            info.innerHTML = stage[0];  // for debug          
+            info.innerHTML = formula;  // for debug          
             doStage(variants[i].permut, stage);
             return;
         } 
     }
-    console.log(variants);
+    info.innerHTML = " Not found";
     throw new Error( "Stage not finded.");    
 }
 
 function doStage(permut, stage) 
 {
     // permut -> [0,2,1]
-    let permutInds = permut.split('').map(x => x == 'a' ? 0 : x == 'b' ? 1 : 2 );
+    let permutIndices = permut.split('').map(x => x == 'a' ? 0 : x == 'b' ? 1 : 2 );
 
-    for (let i = 0; i < 3; i++) {
-        let xSet = [setA, setB, setC][permutInds[i]];
-        xSet.x = stage[i+1][0];
-        xSet.y = stage[i+1][1];   
+    let params = "a, b, c, x, y";
+    let body = "ax = bx = cx = x; ay = by = cy = y; ar = a.r; br = b.r; cr = c.r;"
+    body += "\n" + stage[1].replace(/=/g, '+=');
+    body += "a.x=ax;a.y=ay;a.r=ar;  b.x=bx;b.y=by;b.r=br;  c.x=cx;c.y=cy;c.r=cr;";
+    const func = new Function(params, body);
+
+    let x = canvas.width / 2, y = canvas.height / 2;
+    switch (permut) {
+        case "abc": func(setA, setB, setC, x, y); break;
+        case "acb": func(setA, setC, setB, x, y); break;
+        case "bac": func(setB, setA, setC, x, y); break;
+        case "bca": func(setB, setC, setA, x, y); break;
+        case "cab": func(setC, setA, setB, x, y); break;
+        case "cba": func(setC, setB, setA, x, y); break;        
     }
-}
-
-////////////////////////////////////////////
-
-{
-   let elements = ["a", "b", "c", "ab", "bc", "ac", "abc"].sort();
-   let fs = [];
-   for (let i = 1; i < 2**elements.length; i++) {
-       let line = i.toString(2);
-       let f = elements.filter((_, j) => line[j] == '1');
-       f = f.join('-');
-       if (isUnique(f, fs)) fs.push(f);
-       
-   }
-   console.log(fs); ////
-}
-
-function isUnique(f, fs) {
-    let permuts = ["abc", "acb",  "bac",  "bca",  "cab",  "cba"];
-    let twins = [];
-    for (let p of permuts) {
-        // "b-ba-ca"
-        let bro = replaceAll(f, p);
-
-        if (bro == "a-abc-ac") {
-            let xxx = 1;
-        }
-
-        // ["b", "ba", "ca"] => [[b], [a,b], [a,c]] => ["b", "ab", "ac"]
-        bro = bro.split('-').map(x => x.split('').sort().join(''));
-        //  ["ab", "ac", "b"] => "ab-ac-b"
-        bro = bro.sort().join('-');
-        if (fs.includes(bro)) 
-           return false;
-    }
-    return true;
-}
-
-function replaceAll(s, p) {
-    return s.split('')
-        .map(x => x == 'a' ? p[0] : x == 'b' ? p[1] : x == 'c' ? p[2] : x )
-        .join('');       
 }
 
