@@ -70,33 +70,34 @@ function decode(variants)
         ["ab-abc-ac", "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
         ["a-ab-abc-ac",  "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
         ["a-b", "bx = ar + br + 10; by = 0;"],      
-        ["a-ab-b",  "bx = (ar + br)/2; by = 0;"],   // 12345   3456
-        ["a-abc-b", "bx = ar -(2*cr - br); by = 0; cx = ar-cr; cy = 0;"], // 12345, 3456, 345
-        ["a-ab-abc-b", "bx = br; by = 0; cx = ar-cr; cy = 0;"],  // 12 345, 345 67,  45 
-        ["ac-b", "bx = ar + br + 10; by = 0; cx = 0; cy = 0;"],  // 1234, 5678, 1234, 
+        ["a-ab-b",  "bx = ar + br - 2*abr; by = 0;"],   // 12345   34567
+        ["a-abc-b", "bx = ar + br - 2*abr; by = 0; cx = ar - cr; cy = 0;"], // 12345, 3456, 345
+        ["a-ab-abc-b", "bx = ar + br - 2*abr; by = 0; cx = ar-cr; cy = 0;"],  // 12 345, 345 67,  45 
+        ["ac-b", "bx = ar + br + 10; by = 0; cx = 0; cy = 0;"],  // 1234, 5678, 1234,        
         ["a-ac-b", "bx = ar + br + 10; by = 0; cx = ar - cr; cy = 0;"],  // 1234, 5678, 123, 
-        ["ab-ac-b", "bx = -br + ar -2* cr; by = 0; cx = ar - cr; cy = 0;"],  // 1234, 3456, 12, 
-        // ["a-ab-ac-b", [x, y], [x, y], [x, y]],
-        // ["abc-ac-b", [x, y], [x, y], [x, y]],
-        // ["a-abc-ac-b", [x, y], [x, y], [x, y]],
-        // ["ab-abc-ac-b", [x, y], [x, y], [x, y]],
-        // ["a-ab-abc-ac-b", [x, y], [x, y], [x, y]],
+        ["ab-ac-b", "bx = br - ar + 2 * cr; by = 0; cx = cr - ar; cy = 0;"],  // 1234, 3456, 12,     
+        ["a-ab-ac-b", "bx = ar + br - 2*abr; by = 0; cx = cr-ar; cy = 0;"],  // 12345, 4567, 12 
+        ["abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = 0; cy = 0;"],  // 12345, 4567, 12345 
+        ["a-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - cr; cy = 0;"],  // 12345, 4567, 2345
+        ["ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = cr - ar; cy = 0;"],  // 123 45, 4567, 1234
+        ["a-ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - 2*abr - cr  +2*bcr; cy = 0;"],  // 12345, 4567, 234
         // ["ab-ac-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-ac-bc", [x, y], [x, y], [x, y]],
         // ["ab-abc-ac-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-abc-ac-bc", [x, y], [x, y], [x, y]],
-        // ["a-ac-b-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-ac-b-bc", [x, y], [x, y], [x, y]],
-        // ["a-abc-ac-b-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-abc-ac-b-bc", [x, y], [x, y], [x, y]],
-        // ["a-b-c", [x, y], [x, y], [x, y]],
-        // ["a-ab-b-c", [x, y], [x, y], [x, y]],
         // ["a-abc-b-c", [x, y], [x, y], [x, y]],
         // ["a-ab-abc-b-c", [x, y], [x, y], [x, y]],
-        // ["a-ab-ac-b-c", [x, y], [x, y], [x, y]],
         // ["a-ab-abc-ac-b-c", [x, y], [x, y], [x, y]],
         // ["a-ab-ac-b-bc-c", [x, y], [x, y], [x, y]],
-        // ["a-ab-abc-ac-b-bc-c", [x, y], [x, y], [x, y]],
+        ["a-ac-b-bc", "bx = ar + br; by = 0; cx = ar + cr- 2*acr; cy = 0;"],  // 12345, 6789, 4567
+        ["a-abc-ac-b-bc", "bx = ar + br -2*abr; by = 0; cx = ar + cr- 2*acr; cy = 0;"],  // 12 345, 345 678, 234567    
+        ["a-b-c", "bx = ar + br; by = 0; cx = -ar - cr; cy = 0;"],  // 12345, 6789, 0asdf
+        ["a-ab-b-c", "bx = ar + br -2*abr; by = 0; cx = -ar - cr; cy = 0;"],  // 12345, 45678, 0asdf
+        ["a-ab-ac-b-c", "bx = ar + br -2*abr; by = 0; cx = 2*acr - ar - cr; cy = 0;"],  // 123 45, 45678, 0a12
+        
+        ["a-ab-abc-ac-b-bc-c", "bx = ar + br - 2*abr; by = 0; cx = ar - abr; cy = ar + cr - acr - bcr;"],  // 1267, 2347, 4567
         
 
     ];
@@ -120,22 +121,30 @@ function decode(variants)
 
 function doStage(permut, stage) 
 {
-    let params = "a, b, c, x, y";
-    let body = "ax = bx = cx = x; ay = by = cy = y; ar = a.r; br = b.r; cr = c.r;"
-    body += stage[1].replace(/=/g, '+=');
+    function f(setX, setY) {
+        let counter = 0;
+        for (let k of setX.innerSet.keys())
+           if (setY.innerSet.has(k)) counter++;
+        return counter * 10;
+    }
+
+    let params = "a, b, c, x, y, f";
+    let body = "ax = bx = cx = x; ay = by = cy = y; ar = a.r; br = b.r; cr = c.r; "
+    body += "abr = f(a,b); acr = f(a,c); bcr = f(b,c); "
+    body += stage[1].replace(/=/g, '+='); // "bx += abr: by += 0; ... "
     body += "a.x=ax; a.y=ay; a.r=ar;   b.x=bx; b.y=by; b.r=br;   c.x=cx; c.y=cy; c.r=cr;";
     const func = new Function(params, body);
 
     let x = canvas.width / 2, y = canvas.height / 2;
-    // обратная перестановка!
+    
     switch (permut) {
-        case "abc": func(setA, setB, setC, x, y); break;   
-        // abc->acb ::: abc<-acb ::: a<-a, b<-c; c<-b  :::  ACB
-        case "acb": func(setA, setC, setB, x, y); break; 
-        case "bac": func(setB, setA, setC, x, y); break;  
-        case "bca": func(setC, setA, setB, x, y); break;  
-        case "cab": func(setB, setC, setA, x, y); break;  
-        case "cba": func(setC, setB, setA, x, y); break;  
+        case "abc": func(setA, setB, setC, x, y, f); break; 
+        // обратные перестановки!  abc->acb ::: abc<-acb ::: a<-a, b<-c; c<-b  :::  ACB
+        case "acb": func(setA, setC, setB, x, y, f); break; 
+        case "bac": func(setB, setA, setC, x, y, f); break;  
+        case "bca": func(setC, setA, setB, x, y, f); break;  
+        case "cab": func(setB, setC, setA, x, y, f); break;  
+        case "cba": func(setC, setB, setA, x, y, f); break;  
     }
 }
 

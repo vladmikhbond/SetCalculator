@@ -10,8 +10,8 @@ class XSet {
    }
 
    setInnerSet(str) {
-       let set = str.trim().split('');
-       this.innerSet = new Set(set);
+       let arr = str.trim().split('').filter(c => c != ' ');
+       this.innerSet = new Set(arr);
        this.r = this.innerSet.size * 10;
        return this.innerSet;
    }
