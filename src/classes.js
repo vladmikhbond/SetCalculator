@@ -3,11 +3,12 @@ class XSet {
    constructor(color, r) {
        this.color = color;
        this.r = r;
-       //
        this.x = NaN;
-       this.z = 0;   // запасное поле
        this.y = NaN;
        this.innerSet = new Set();
+       // запасное поле
+       this.z = 0;   
+       this.zr = 0;
    }
 
    setInnerSet(str) {
@@ -24,17 +25,15 @@ class XSet {
     belong(x, y) {
         let dx = this.x - x;   
         let dy2 = (this.y - y) ** 2; 
+        if (dx * dx + dy2 < this.r * this.r) 
+            return true;
         // есть запасное поле
         if (this.z) {
-            let r = this.r / 2;
-            if (dx * dx + dy2 < r * r) 
-                return true;
             dx = this.x + this.z - x;
-            if (dx * dx + dy2 < r * r) 
-                return true;
-           return false;
-       }
-       return dx * dx + dy2 < this.r * this.r;
+            if (dx * dx + dy2 < this.zr * this.zr) 
+                return true;           
+        }
+        return false;
    }
 
    getMatrix() {

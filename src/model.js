@@ -57,32 +57,32 @@ function decode(variants)
     const stages = [
          // ax = 0; ay = 0;   - по умолчанию
         ["a", ""],
-        ["ab",   "bx = 0; by = 0;"],
-        ["a-ab", "bx = 0; by = 0;"],
-        ["abc",      "bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["a-abc",    "bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["ab-abc",   "bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["a-ab-abc", "bx = 0; by = 0; cx = 0; cy = 0;"],
-        ["ab-ac",     "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"],
-        ["a-ab-ac",   "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
-        ["ab-abc-ac", "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
-        ["a-ab-abc-ac",  "bx = -ar + br; by = 0; cx = ar - cr; cy = 0;"], 
-        ["a-b", "bx = ar + br + 10; by = 0;"],      
-        ["a-ab-b",  "bx = ar + br - 2*abr; by = 0;"],   // 12345   34567
-        ["a-abc-b", "bx = ar + br - 2*abr; by = 0; cx = ar - cr; cy = 0;"], // 12345, 3456, 345
-        ["a-ab-abc-b", "bx = ar + br - 2*abr; by = 0; cx = ar-cr; cy = 0;"],  // 12 345, 345 67,  45 
-        ["ac-b", "bx = ar + br + 10; by = 0; cx = 0; cy = 0;"],  // 1234, 5678, 1234,        
-        ["a-ac-b", "bx = ar + br + 10; by = 0; cx = ar - cr; cy = 0;"],  // 1234, 5678, 123, 
-        ["ab-ac-b", "bx = br - ar + 2 * cr; by = 0; cx = cr - ar; cy = 0;"],  // 1234, 3456, 12,     
-        ["a-ab-ac-b", "bx = ar + br - 2*abr; by = 0; cx = cr-ar; cy = 0;"],  // 12345, 4567, 12 
-        ["abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = 0; cy = 0;"],  // 12345, 4567, 12345 
-        ["a-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - cr; cy = 0;"],  // 12345, 4567, 2345
-        ["ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = cr - ar; cy = 0;"],  // 123 45, 4567, 1234
-        ["a-ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - 2*abr - cr + 2*bcr; cy = 0;"],  // 12345, 4567, 234
-        //["ab-ac-bc",  "bx = ar + br - 2*abr; by = 0; cx = ar - abr; cz = ar + cr; cy = 0;"],  // 123 45, 45 678, 234
-        // ["a-ab-ac-bc", [x, y], [x, y], [x, y]],
-        // ["ab-abc-ac-bc", [x, y], [x, y], [x, y]],
-        // ["a-ab-abc-ac-bc", [x, y], [x, y], [x, y]],
+        ["ab",   ""],
+        ["a-ab", ""],
+        ["abc",      ""],
+        ["a-abc",    ""],
+        ["ab-abc",   ""],
+        ["a-ab-abc", ""],
+        ["ab-ac",     "bx = -ar + br; cx = ar - cr;"],  // 12345  123  45
+        ["a-ab-ac",   "bx = -ar + br; cx = ar - cr;"],  // 123456  123  45
+        ["ab-abc-ac", "bx = -ar + br; cx = ar - cr;"],  // 123456  1234  3456
+        ["a-ab-abc-ac",  "bx = -ar + br; cx = bx + br + cr - 2*bcr;"], // 1234567  1234  3456
+        ["a-b", "bx = ar + br + 10;"],  //1234 5678    
+        ["a-ab-b",  "bx = ar + br - 2*abr;"],   // 12345   34567
+        ["a-abc-b", "bx = ar + br - 2*abr; cx = ar - cr;"], // 12345  3456  345
+        ["a-ab-abc-b", "bx = ar + br - 2*abr; cx = ar - cr;"],  // 12345  34567  45         
+        ["ac-b", "bx = ar + br + 10;"],  // 1234, 5678, 1234
+        ["a-ac-b", "bx = ar + br + 10; cx = ar - cr;"],  // 1234, 5678, 123, 
+        ["ab-ac-b", "bx = br - ar + 2 * cr; cx = cr - ar;"],  // 1234, 3456, 12,     
+        ["a-ab-ac-b", "bx = ar + br - 2*abr; cx = cr-ar;"],  // 12345, 4567, 12 
+        ["abc-ac-b", "bx = ar + br - 2*abr;"],  // 12345, 4567, 12345
+        ["a-abc-ac-b", "bx = ar + br - 2*abr; cx = ar - cr;"],  // 12345, 4567, 2345
+        ["ab-abc-ac-b", "bx = ar + br - 2*abr; cx = cr - ar;"],  // 123 45, 4567, 1234
+        ["a-ab-abc-ac-b", "bx = ar + br - 2*abr; cx = ar - 2*abr - cr + 2*bcr;"],  // 12345, 4567, 234   
+        ["ab-ac-bc", "bx = ar + br - 2*abr; czr = br-abr; cr -= czr; cx=-ar+cr; cz = ar + bx + br - cr - czr;"], // 123 45, 45 678, 123678    
+        ["a-ab-ac-bc", "bx = ar + br - 2*abr; czr = br-abr; cr -= czr; cx=-ar+cr; cz = ar + bx + br - cr - czr;"],  // 012345, 45678, 123678   
+        ["ab-abc-ac-bc", "bx = ar + br - 2*abr;  czr = br - abr/2;  cr -= czr;  cx = -ar+cr; cz = bx + br - czr - cx;"],  // 123 45, 45 678, 1235678    
+        ["a-ab-abc-ac-bc", "bx = ar + br - 2*abr;  czr = br - abr/2;  cr -= czr;  cx = -ar+cr; cz = bx + br - czr - cx;"],  // 012 345, 345 678, 0145678
         // ["a-ab-ac-b-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-abc-ac-b-bc", [x, y], [x, y], [x, y]],
         // ["a-abc-b-c", [x, y], [x, y], [x, y]],
@@ -117,6 +117,22 @@ function decode(variants)
     throw new Error( "Stage not finded.");    
 }
 
+
+function fff(a, b, c,    x, y, f) {
+    let ax, bx, cx, ay, by, cy, ar, br, cr;
+    let az, bz, cz, azr, bzr, czr; 
+    ax = bx = cx = 0; ay = by = cy = 0; 
+    az = bz = cz = 0; 
+    ar = a.r; br = b.r; cr = c.r;
+    let abr = f(a,b), acr = f(a,c), bcr = f(b,c);
+    //"a-ac-b-bc", "
+    bx = ar + br; cx = ar + cr - 2*acr;
+    ///
+    a.x = ax + x; a.y = ay + y; a.r = ar; a.z = az; a.zr = azr;    
+    b.x = bx + x; b.y = by + y; b.r = br; b.z = bz; b.zr = bzr;    
+    c.x = cx + x; c.y = cy + y; c.r = cr; c.z = cz; c.zr = czr;        
+}
+
 function doStage(permut, stage) 
 {
     function intersect(setX, setY) {
@@ -126,11 +142,22 @@ function doStage(permut, stage)
         return counter * 10;
     }
 
+
+
     let params = "a, b, c, x, y, f";
-    let body = "ax = bx = cx = x; ay = by = cy = y; az = bz = cz = 0; ar = a.r; br = b.r; cr = c.r; ";
-    body += "abr = f(a,b); acr = f(a,c); bcr = f(b,c); "
-    body += stage[1].replace(/=/g, '+='); // "bx += abr: by += 0; bz += abr... "
-    body += "a.x=ax; a.y=ay; a.r=ar; a.z=az;   b.x=bx; b.y=by; b.r=br; b.z=bz;   c.x=cx; c.y=cy; c.r=cr; c.z=cz;";
+    let body = `
+    let ax, bx, cx, ay, by, cy, ar, br, cr;
+    let az, bz, cz, azr, bzr, czr; 
+    ax = bx = cx = 0; ay = by = cy = 0; 
+    az = bz = cz = 0; 
+    ar = a.r; br = b.r; cr = c.r;
+    let abr = f(a,b), acr = f(a,c), bcr = f(b,c);
+    ${stage[1]};
+    a.x = ax + x; a.y = ay + y; a.r = ar; a.z = az; a.zr = azr;    
+    b.x = bx + x; b.y = by + y; b.r = br; b.z = bz; b.zr = bzr;    
+    c.x = cx + x; c.y = cy + y; c.r = cr; c.z = cz; c.zr = czr;        
+    `;
+
     const func = new Function(params, body);
 
     let x = canvas.width / 2, y = canvas.height / 2;
