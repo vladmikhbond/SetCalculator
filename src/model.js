@@ -1,5 +1,3 @@
-
-
 function calcMatrix(setA, setB, setC) {
     const op = new Function("a","b","c", "return " + expr.value);
     const a = setA.getMatrix();   
@@ -81,7 +79,7 @@ function decode(variants)
         ["a-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - cr; cy = 0;"],  // 12345, 4567, 2345
         ["ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = cr - ar; cy = 0;"],  // 123 45, 4567, 1234
         ["a-ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - 2*abr - cr + 2*bcr; cy = 0;"],  // 12345, 4567, 234
-        // ["ab-ac-bc", [x, y], [x, y], [x, y]],
+        //["ab-ac-bc",  "bx = ar + br - 2*abr; by = 0; cx = ar - abr; cz = ar + cr; cy = 0;"],  // 123 45, 45 678, 234
         // ["a-ab-ac-bc", [x, y], [x, y], [x, y]],
         // ["ab-abc-ac-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-abc-ac-bc", [x, y], [x, y], [x, y]],
@@ -121,7 +119,7 @@ function decode(variants)
 
 function doStage(permut, stage) 
 {
-    function f(setX, setY) {
+    function intersect(setX, setY) {
         let counter = 0;
         for (let k of setX.innerSet.keys())
            if (setY.innerSet.has(k)) counter++;
@@ -129,22 +127,22 @@ function doStage(permut, stage)
     }
 
     let params = "a, b, c, x, y, f";
-    let body = "ax = bx = cx = x; ay = by = cy = y; ar = a.r; br = b.r; cr = c.r; "
+    let body = "ax = bx = cx = x; ay = by = cy = y; az = bz = cz = 0; ar = a.r; br = b.r; cr = c.r; ";
     body += "abr = f(a,b); acr = f(a,c); bcr = f(b,c); "
-    body += stage[1].replace(/=/g, '+='); // "bx += abr: by += 0; ... "
-    body += "a.x=ax; a.y=ay; a.r=ar;   b.x=bx; b.y=by; b.r=br;   c.x=cx; c.y=cy; c.r=cr;";
+    body += stage[1].replace(/=/g, '+='); // "bx += abr: by += 0; bz += abr... "
+    body += "a.x=ax; a.y=ay; a.r=ar; a.z=az;   b.x=bx; b.y=by; b.r=br; b.z=bz;   c.x=cx; c.y=cy; c.r=cr; c.z=cz;";
     const func = new Function(params, body);
 
     let x = canvas.width / 2, y = canvas.height / 2;
     
     switch (permut) {
-        case "abc": func(setA, setB, setC, x, y, f); break; 
+        case "abc": func(setA, setB, setC, x, y, intersect); break; 
         // обратные перестановки!  abc->acb ::: abc<-acb ::: a<-a, b<-c; c<-b  :::  ACB
-        case "acb": func(setA, setC, setB, x, y, f); break; 
-        case "bac": func(setB, setA, setC, x, y, f); break;  
-        case "bca": func(setC, setA, setB, x, y, f); break;  
-        case "cab": func(setB, setC, setA, x, y, f); break;  
-        case "cba": func(setC, setB, setA, x, y, f); break;  
+        case "acb": func(setA, setC, setB, x, y, intersect); break; 
+        case "bac": func(setB, setA, setC, x, y, intersect); break;  
+        case "bca": func(setC, setA, setB, x, y, intersect); break;  
+        case "cab": func(setB, setC, setA, x, y, intersect); break;  
+        case "cba": func(setC, setB, setA, x, y, intersect); break;  
     }
 }
 
