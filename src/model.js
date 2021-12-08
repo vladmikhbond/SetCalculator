@@ -80,7 +80,7 @@ function decode(variants)
         ["abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = 0; cy = 0;"],  // 12345, 4567, 12345 
         ["a-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - cr; cy = 0;"],  // 12345, 4567, 2345
         ["ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = cr - ar; cy = 0;"],  // 123 45, 4567, 1234
-        ["a-ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - 2*abr - cr  +2*bcr; cy = 0;"],  // 12345, 4567, 234
+        ["a-ab-abc-ac-b", "bx = ar + br - 2*abr; by = 0; cx = ar - 2*abr - cr + 2*bcr; cy = 0;"],  // 12345, 4567, 234
         // ["ab-ac-bc", [x, y], [x, y], [x, y]],
         // ["a-ab-ac-bc", [x, y], [x, y], [x, y]],
         // ["ab-abc-ac-bc", [x, y], [x, y], [x, y]],
