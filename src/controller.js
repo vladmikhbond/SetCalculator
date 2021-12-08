@@ -1,6 +1,7 @@
 const setA = new XSet("red", 60);
 const setB = new XSet("green", 50);
 const setC = new XSet("blue", 40);
+setC.z = 50;
 
 let current = null;
 

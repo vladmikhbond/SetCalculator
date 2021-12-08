@@ -5,6 +5,7 @@ class XSet {
        this.r = r;
        //
        this.x = NaN;
+       this.z = 0;   // запасное поле
        this.y = NaN;
        this.innerSet = new Set();
    }
@@ -20,9 +21,20 @@ class XSet {
        this.x = x0; this.y = y0;
    }
 
-   belong(x, y) {
-       let dx = this.x - x, dy = this.y - y;
-       return dx * dx + dy * dy < this.r * this.r;
+    belong(x, y) {
+        let dx = this.x - x;   
+        let dy2 = (this.y - y) ** 2; 
+        // есть запасное поле
+        if (this.z) {
+            let r = this.r / 2;
+            if (dx * dx + dy2 < r * r) 
+                return true;
+            dx = this.x + this.z - x;
+            if (dx * dx + dy2 < r * r) 
+                return true;
+           return false;
+       }
+       return dx * dx + dy2 < this.r * this.r;
    }
 
    getMatrix() {

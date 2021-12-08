@@ -1,24 +1,22 @@
 
 
-function draw(matrix) {
+function draw(matrix) 
+{
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     // fill circles startig from the smallest 
     let sets = [setA, setB, setC].sort((a,b) => b.r - a.r);   
     for (let set of sets) {
         ctx.fillStyle = set.color;
-        ctx.beginPath();
-        ctx.arc(set.x, set.y, set.r, 0, Math.PI*2, true); 
-        ctx.fill()
+        fillSet(ctx, set);
+
     }   
     // current
     if (current) {
         let r = current.r;
         ctx.fillStyle = current.color;
-        ctx.beginPath();
-        ctx.arc(current.x, current.y, current.r, 0, Math.PI*2, true); 
-        ctx.fill();
+        fillSet(ctx, current);
     }
     // matrix
     if (matrix) {
@@ -36,11 +34,33 @@ function draw(matrix) {
     // sets stroke    
     ctx.strokeStyle = "white";
     for (let s of [setA, setB, setC]) {
-        ctx.beginPath(); 
-        ctx.arc(s.x, s.y, s.r, 0,Math.PI*2,true); 
-        ctx.stroke();
+        strokeSet(ctx, s);   
     }   
-    
-
 }
+
+function fillSet(ctx, set) {
+    ctx.beginPath();   
+    if (set.z) {
+        // есть запасное поле
+        ctx.arc(set.x, set.y, set.r/2, 0, Math.PI*2, true);
+        ctx.arc(set.x + set.z, set.y, set.r/2, 0, Math.PI*2, true);
+    } else {
+        ctx.arc(set.x, set.y, set.r, 0, Math.PI*2, true); 
+    }  
+    ctx.fill(); 
+}
+
+function strokeSet(ctx, set) {
+    ctx.beginPath();
+    // есть запасное поле
+    if (set.z) {
+        ctx.arc(set.x, set.y, set.r/2, 0, Math.PI*2, true);
+        ctx.moveTo(set.x + set.z + set.r/2, set.y);
+        ctx.arc(set.x + set.z, set.y, set.r/2, 0, Math.PI*2, true);
+    } else {
+        ctx.arc(set.x, set.y, set.r, 0, Math.PI*2, true); 
+    }  
+    ctx.stroke();
+}
+
 
