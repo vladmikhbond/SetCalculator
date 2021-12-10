@@ -1,8 +1,6 @@
 const setA = new XSet("red", 60);
 const setB = new XSet("green", 50);
 const setC = new XSet("blue", 40);
-setC.z = 50;
-setC.zr = 20;
 
 
 let current = null;
@@ -51,4 +49,16 @@ canvas.addEventListener('mousemove', function(e) {
         draw();       
     }
 })
-
+//--------------------- test -----------------------------
+btnTest.addEventListener('click', function(e) {
+    let i = +inputTest.value;
+    let [a,b,c] = stages[i][2].split('-');
+    inputA.value = a ? a : "";
+    inputB.value = b ? b : "";
+    inputC.value = c ? c : "";
+    setStage(setA, setB, setC);
+    draw();
+    inputTest.value = i + 1;  
+})
+setC.z = 50;
+setC.zr = 20;
