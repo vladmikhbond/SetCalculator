@@ -66,6 +66,7 @@ function decode(variants)
         ["ab-ac",     "bx = -ar + br; cx = ar - cr;"],  // 12345  123  45
         ["a-ab-ac",   "bx = -ar + br; cx = ar - cr;"],  // 123456  123  45
         ["ab-abc-ac", "bx = -ar + br; cx = ar - cr;"],  // 123456  1234  3456
+        
         ["a-ab-abc-ac",  "bx = -ar + br; cx = bx + br + cr - 2*bcr;"], // 1234567  1234  3456
         ["a-b", "bx = ar + br + 10;"],  //1234 5678    
         ["a-ab-b",  "bx = ar + br - 2*abr;"],   // 12345   34567
@@ -84,10 +85,13 @@ function decode(variants)
         ["ab-abc-ac-bc", "bx = ar + br - 2*abr;  czr = br - abr/2;  cr -= czr;  cx = -ar+cr; cz = bx + br - czr - cx;"],  // 123 45, 45 678, 1235678    
         ["a-ab-abc-ac-bc", "bx = ar + br - 2*abr;  czr = br - abr/2;  cr -= czr;  cx = -ar+cr; cz = bx + br - czr - cx;"],  // 012 345, 345 678, 0145678
         ["a-ab-ac-b-bc", "bx = ar + br - 2*abr;  cr = acr;  czr = bcr;  cx = -ar+cr; cz = bx + br - czr - cx;"],  // 012 345, 345 678, 018
+        
         ["a-ab-abc-ac-b-bc", "bx = ar + br - 2*abr;  czr = bcr - abcr; cr -= czr; cx = bx - br + abcr - cr; cz = ar + czr - cx;"],  // 012 345, 345 678, 2348
         ["a-abc-b-c", "bx = ar + br - 2*abr;  let t = abcr;  czr = cr - t; cr = t; cx = ar-cr; cz = bx + br + czr - cx;"],  // 012 345, 345 678, 3459a                        
         ["a-ab-abc-b-c", "bx = ar + br - 2*abr;  let t = abcr;  czr = cr - t; cr = t; cx = ar-cr; cz = bx + br + czr - cx;"],  // 012 345, 345 678, 349a
-        // ["a-ab-abc-ac-b-c", [x, y], [x, y], [x, y]],
+        ["a-ab-abc-ac-b-c", "bx = ar + br - 2*abr;  czr = abcr; cr -= czr; cx = -ar +acr - czr - cr; cz = ar + czr - cx;"],  // 012 345, 345 678, 2348
+        
+        
         // ["a-ab-ac-b-bc-c", [x, y], [x, y], [x, y]],
         ["a-ac-b-bc", "bx = ar + br; by = 0; cx = ar + cr- 2*acr; cy = 0;"],  // 12345, 6789, 4567
         ["a-abc-ac-b-bc", "bx = ar + br -2*abr; by = 0; cx = ar + cr- 2*acr; cy = 0;"],  // 12 345, 345 678, 234567    
@@ -124,7 +128,7 @@ function fff(a, b, c,    x, y, f) {
     ax = bx = cx = 0; ay = by = cy = 0; 
     az = bz = cz = 0; 
     ar = a.r; br = b.r; cr = c.r;
-    let abr = f(a,b), acr = f(a,c), bcr = f(b,c), abcr = f(a,b,c);
+    let ab = f(a,b), ac = f(a,c), bc = f(b,c), abc = f(a,b,c);
     //"a-ac-b-bc", "
     bx = ar + br; cx = ar + cr - 2*acr;
     ///
@@ -137,8 +141,7 @@ function doStage(permut, stage)
 {
     function intersect(setX, setY, setZ) {
         let counter = 0;
-        if (!setZ) 
-            setZ = setY;
+        if (!setZ) setZ = setY;
         for (let k of setX.innerSet.keys())
             if (setY.innerSet.has(k) && setZ.innerSet.has(k)) 
                 counter++;
@@ -154,7 +157,7 @@ function doStage(permut, stage)
     ax = bx = cx = 0; ay = by = cy = 0; 
     az = bz = cz = 0; 
     ar = a.r; br = b.r; cr = c.r;
-    let abr = f(a,b), acr = f(a,c), bcr = f(b,c), abcr = f(a,b,c);
+    let ab = f(a,b), ac = f(a,c), bc = f(b,c), abc = f(a,b,c);
     ${stage[1]};
     a.x = ax + x; a.y = ay + y; a.r = ar; a.z = az; a.zr = azr;    
     b.x = bx + x; b.y = by + y; b.r = br; b.z = bz; b.zr = bzr;    
