@@ -82,7 +82,6 @@ const stages = [
 ];
 
 
-
 function setStage(setA, setB, setC) {
     let a = setA.setInnerSet(inputA.value);
     let b = setB.setInnerSet(inputB.value);

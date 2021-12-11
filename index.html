@@ -1,38 +1,63 @@
 <html>
-    <body>        
-            <div style="margin-bottom: 6px;">
-                <span style="color: red; font: 1em  arial; font-weight: 500;">A = </span> 
-                <input type="text" id="inputA" style="width: 482px; border-color: red" value="12345">              
-            </div>
-            <div style="margin-bottom: 6px;">
-                <span style="color: green; font: 1em  arial; font-weight: 500;">B = </span> 
-                <input type="text" id="inputB" style="width: 482px; border-color: green" value="345678">              
-            </div>
-            <div style="margin-bottom: 6px;">
-                <span style="color: blue; font: 1em  arial; font-weight: 500;">C = </span> 
-                <input type="text" id="inputC" style="width: 482px; border-color:blue" value="0a12">              
-            </div>
-            <div style="margin-bottom: 6px;">
-                <button id="btnStage" style="background-color: whitesmoke; color: black">S</button>                
-                
-                <input type="text" id="expr" style="width: 226px;" value="a * b + c">                
-                <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
-                <input type="text" id="$exprRes" style="width: 226px;" value="">
-            
-            </div>
-            <!-- <div style="margin-bottom: 6px; display:none;"> -->
-            <div style="margin-bottom: 6px;">
-                <input type="text" id="inputTest" style="width: 40px;" value="38">
-                <button id="btnTest" style="background-color: whitesmoke; color: black">T</button>
-                <span id="info" style="width: 200px;" ></span>    
-            </div>
+<body>  
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <link href="app.css" rel="stylesheet">
+    <div class="container">
+    <h2>Set Calculator</h2>
+    <div class="row">
+        <div class="col-sm">
+
+    <div style="margin-bottom: 6px;">
+        <span style="color: red; font: 1em  arial; font-weight: 500;">A = </span> 
+        <input type="text" id="inputA" style="width: 482px; border-color: red" value="12345">              
+    </div>
+    <div style="margin-bottom: 6px;">
+        <span style="color: green; font: 1em  arial; font-weight: 500;">B = </span> 
+        <input type="text" id="inputB" style="width: 482px; border-color: green" value="345678">              
+    </div>
+    <div style="margin-bottom: 6px;">
+        <span style="color: blue; font: 1em  arial; font-weight: 500;">C = </span> 
+        <input type="text" id="inputC" style="width: 482px; border-color:blue" value="0a12">              
+    </div>
+    <div style="margin-bottom: 6px;">
+        <button id="btnStage" style="background-color: whitesmoke; color: black">S</button>                
         
-        <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>
-          
-        <script src="src/global.js"></script>
-        <script src="src/classes.js"></script>
-        <script src="src/model.js"></script>
-        <script src="src/view.js"></script>
-        <script src="src/controller.js"></script>
-    </body>
+        <input type="text" id="expr" style="width: 226px;" value="a * b + c">                
+        <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
+        <span id="$exprRes" style="width: 226px;"></span>
+    
+    </div>
+    <div style="display:none;">
+    <!-- <div style="margin-bottom: 6px;"> -->
+        <input type="text" id="inputTest" style="width: 40px;" value="38">
+        <button id="btnTest" style="background-color: whitesmoke; color: black">T</button>
+        <span id="info" style="width: 200px;" ></span>    
+    </div>
+    
+    <!-- autocreated buttons -->
+    <div id="buttonsDiv" style="margin-bottom: 6px;"></div>
+
+    <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>
+        
+
+</div>
+<!-- card -->
+<div class="col-sm">
+    <div class="card"  style="max-width: 512px;">
+        <div class="card-body">
+            <h5 id="cardTitle" class="card-title">Множества</h5>
+            <div id="cardText" class="card-text" style="white-space:break-spaces"></div>
+            <!-- <a href="#" class="card-link">Card link</a> -->
+        </div>
+    </div>
+</div>
+</div>
+    <script src="lib/bootstrap.bundle.min.js"></script>  
+    <script src="src/global.js"></script>
+    <script src="src/data.js"></script>
+    <script src="src/classes.js"></script>
+    <script src="src/model.js"></script>
+    <script src="src/view.js"></script>
+    <script src="src/controller.js"></script>
+</body>
 </html>

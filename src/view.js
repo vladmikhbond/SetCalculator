@@ -3,7 +3,7 @@ function draw(matrix)
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // fill circles startig from the smallest 
+    // рисуем круги в порядке возрастания радиуса 
     let sets = [setA, setB, setC].sort((a,b) => {
         // если есть запасное поле, радиус вдвое меньше
         let ar = a.z ? a.r/2 : a.r;
@@ -15,12 +15,12 @@ function draw(matrix)
         fillSet(ctx, set);
 
     }   
-    // current
-    if (current) {
-        let r = current.r;
-        ctx.fillStyle = current.color;
-        fillSet(ctx, current);
-    }
+    // // current
+    // if (current) {
+    //     let r = current.r;
+    //     ctx.fillStyle = current.color;
+    //     fillSet(ctx, current);
+    // }
     // matrix
     if (matrix) {
         const D = 1;

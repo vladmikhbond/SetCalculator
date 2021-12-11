@@ -2,31 +2,15 @@ const setA = new XSet("red", 60);
 const setB = new XSet("green", 50);
 const setC = new XSet("blue", 40);
 
-
-let current = null;
-
 draw();
-
-// btnA.addEventListener('click', function(e) {
-//     current = setA;
-// })
-
-// btnB.addEventListener('click', function(e) {
-//     current = setB;
-// })
-
-// btnC.addEventListener('click', function(e) {
-//     current = setC;
-// })
 
 btnGo.addEventListener('click', function(e) {
     setStage(setA, setB, setC);
     draw();
 
-    current =  null;
     let matrix = calcMatrix(setA, setB, setC);
     draw(matrix);   
-    $exprRes.value = calcExpr(setA, setB, setC);
+    $exprRes.innerHTML = calcExpr(setA, setB, setC);
 })
 
 btnStage.addEventListener('click', function(e) {
@@ -35,24 +19,6 @@ btnStage.addEventListener('click', function(e) {
 })
 
 
-// mouse events 
-
-// canvas.addEventListener('mousedown', function(e) {
-//     if (current) {
-//         current.x = e.offsetX;
-//         current.y = e.offsetY;   
-//         current =  null;
-//         draw(); 
-//     }
-// })
-
-// canvas.addEventListener('mousemove', function(e) {
-//     if (current) {
-//         current.x = e.offsetX;
-//         current.y = e.offsetY; 
-//         draw();       
-//     }
-// })
 //--------------------- test -----------------------------
 btnTest.addEventListener('click', function(e) {
     let i = +inputTest.value;
@@ -64,3 +30,33 @@ btnTest.addEventListener('click', function(e) {
     draw();
     inputTest.value = i + 1;  
 })
+
+
+// learning ---------------------------------------
+for (let i = 0; i < DATA.length; i++) {
+    let btn = document.createElement("button");
+    btn.id="card" + i;
+    btn.className = "btn btn-info"; 
+    btn.innerHTML = i + 1;
+    btn.type = "button";
+    btn.title = DATA[i].h;
+    btn.addEventListener("click", learn);
+    btn.style.marginLeft = "4px";
+    document.getElementById("buttonsDiv").appendChild(btn);
+}
+
+
+function learn() {
+    let i = +this.id.slice(4);
+    cardTitle.innerHTML = `${i+1} ${DATA[i].h}`;
+    let dataT = DATA[i].t.replace( /<<(b):(.*)>>/g,
+        '<span class="config" onclick="learn2(' + i + ',\'$1\')">$2</span>');
+    cardText.innerHTML = dataT;
+    inputA.value = DATA[i].a[0];
+    inputB.value = DATA[i].a[1];
+    inputC.value = DATA[i].a[2];
+    if (DATA[i].a[3]) inputParams.value = DATA[i].a[3];
+    range.value = DATA[i].m;
+    refresh();
+}
+
