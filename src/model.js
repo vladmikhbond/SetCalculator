@@ -50,17 +50,15 @@ const stages = [
 ["a-ab-ac-b-bc", "bx = ar + br - ab;  czr = bc/2; cr -= czr; cx = -ar + ac - cr;  cz = bx + br - czr - cx;", "012345-345678-018"],
 ["a-ab-abc-ac-b-bc", "bx = ar + br - ab; cr=ac/2; czr=(bc-abc)/2; cx = bx-br+abc- cr; cz = ar + czr - cx;", "012345-345678-2348"],
 ["a-abc-b-c", "bx = ar + br - ab;  let t = abc/2;  czr = cr - t; cr = t; cx = ar-cr; cz = bx + br + czr - cx;", "012345-345678-3459a"],
-
-/*30*/["a-ab-abc-b-c", "bx = ar + br - ab;  let t = abc;  czr = cr - t; cr = t; cx = ar-cr; cz = bx + br + czr - cx;", "012345-345678-349a"],
-["a-ab-abc-ac-b-c", "bx = ar + br - ab; czr = abc; cr -= czr; cx = -ar + ac - abc - cr; cz = bx - br + czr - cx;", "12345-345678-ab134"], 
-["a-ab-ac-b-bc-c", "bx = ar + br - ab; czr = abc; cr -= czr; cx = -ar + ac - abc - cr; cz = bx - br + czr - cx;", "12345-345678-01278"],  //
-["a-ac-b-bc", "bx = ar + br; by = 0; cx = ar + cr- 2*ac; cy = 0;", "12345-6789-4567"],
-["a-abc-ac-b-bc", "bx = ar + br - ab; by = 0; cx = ar + cr- 2*ac; cy = 0;", "12345-345678-234567"],
-["a-b-c", "bx = ar + br; by = 0; cx = -ar - cr; cy = 0;", "12345-6789-0asdf"],
-["a-ab-b-c", "bx = ar + br - ab; by = 0; cx = -ar - cr; cy = 0;", "12345-45678-0asdf"],
-["a-ab-ac-b-c", "bx = ar + br - ab; by = 0; cx = 2*ac - ar - cr; cy = 0;", "12345-45678-0a12"],
-
-["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; by = 0; cx = ar - ab; cy = ar + cr - ac - bc;", "1267-2347-4567"],
+["a-ab-abc-b-c", "bx = ar + br - ab;  czr = abc/2;  cr -= czr;  cx = -ar -cr;  cz = bx-br+czr-cx;", "012345-345678-349a"], // 30
+["a-ab-abc-ac-b-c", "bx = ar + br - ab;  czr = abc/2;  cr -= czr;  cx = -ar +ac/2 -cr;  cz = bx-br+czr-cx;", "12345-345678-ab134"], 
+["a-ab-ac-b-bc-c", "bx = ar + br - ab; czr = bc/2;  cr -= czr;  cx = -ar +ac/2 -cr;  cz = bx+br-czr-cx;", "12345-345678-0178"],  
+["a-ac-b-bc", "bx = ar + br; cx = ar + cr - ac;", "12345-6789-4567"], 
+["a-abc-ac-b-bc", "bx = ar + br - ab; cx = ar - ac + cr;", "012345-456789-23456"],
+["a-b-c", "bx = ar + br; cx = -ar - cr;", "12345-6789-0asdf"],  // 35
+["a-ab-b-c", "bx = ar + br - ab; cx = -ar - cr;", "12345-45678-0abcd"],
+["a-ab-ac-b-c", "bx = ar + br - ab; cx = -ar + ac - cr;", "12345-345678-0a12"],
+["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; let t = ab/2; cx = ar - t; ay=by = -t; cy = t;", "1267-2347-4567"],  // 38
 ];
 // alert()
 
