@@ -1,25 +1,30 @@
 <html>
-    <body>
-        
+    <body>        
             <div style="margin-bottom: 6px;">
-                <button id="btnA" style="background-color: red; color: white">A</button> 
-                <input type="text" id="inputA" style="width: 480px; border-color: red" value="12345">              
+                <span style="color: red; font: 1em  arial; font-weight: 500;">A = </span> 
+                <input type="text" id="inputA" style="width: 482px; border-color: red" value="12345">              
             </div>
             <div style="margin-bottom: 6px;">
-                <button id="btnB" style="background-color: green; color: white">B</button>
-                <input type="text" id="inputB" style="width: 480px; border-color: green" value="345678">              
+                <span style="color: green; font: 1em  arial; font-weight: 500;">B = </span> 
+                <input type="text" id="inputB" style="width: 482px; border-color: green" value="345678">              
             </div>
             <div style="margin-bottom: 6px;">
-                <button id="btnC" style="background-color: blue; color: white">C</button>
-                <input type="text" id="inputC" style="width: 480px; border-color:blue" value="0a12">              
+                <span style="color: blue; font: 1em  arial; font-weight: 500;">C = </span> 
+                <input type="text" id="inputC" style="width: 482px; border-color:blue" value="0a12">              
             </div>
             <div style="margin-bottom: 6px;">
-                <button id="btnStage" style="background-color: whitesmoke; color: black">S</button>
+                <button id="btnStage" style="background-color: whitesmoke; color: black">S</button>                
+                
+                <input type="text" id="expr" style="width: 226px;" value="a * b + c">                
                 <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
-                <input type="text" id="expr" style="width: 240px;" value="a * b * c">
+                <input type="text" id="$exprRes" style="width: 226px;" value="">
+            
+            </div>
+            <!-- <div style="margin-bottom: 6px; display:none;"> -->
+            <div style="margin-bottom: 6px;">
                 <input type="text" id="inputTest" style="width: 40px;" value="38">
                 <button id="btnTest" style="background-color: whitesmoke; color: black">T</button>
-                <span id="info" style="width: 200px;" ></span>
+                <span id="info" style="width: 200px;" ></span>    
             </div>
         
         <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>

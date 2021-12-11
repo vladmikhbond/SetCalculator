@@ -1,5 +1,3 @@
-
-
 function draw(matrix) 
 {
     const ctx = canvas.getContext("2d");
@@ -26,8 +24,8 @@ function draw(matrix)
     // matrix
     if (matrix) {
         const D = 1;
-        for (let row = 0; row < N; row++) {
-            for (let col = 0; col < N; col++) {
+        for (let row = 0; row < ROWS; row++) {
+            for (let col = 0; col < COLS; col++) {
                 if (matrix[row][col]) {  
                     let x = col * Kx, y = row * Ky;
                     ctx.fillStyle = row % 3 ? "black" : "white";

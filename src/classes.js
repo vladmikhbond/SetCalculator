@@ -1,26 +1,27 @@
 
 class XSet {
-   constructor(color, r) {
-       this.color = color;
-       this.r = r;
-       this.x = NaN;
-       this.y = NaN;
-       this.innerSet = new Set();
-       // запасное поле
-       this.z = 0;   
-       this.zr = 0;
-   }
+    constructor(color, r) {
+        this.color = color;
+        this.r = r;
+        this.x = NaN;
+        this.y = NaN;
+        this.innerSet = new Set();
+        // запасное поле
+        this.z = 0;   
+        this.zr = 0;
+    }
 
-   setInnerSet(str) {
-       let arr = str.trim().split('').filter(c => c != ' ');
-       this.innerSet = new Set(arr);
-       this.r = this.innerSet.size * 10;
-       return this.innerSet;
-   }
+    setInnerSet(str) {
+        let arr = str.trim().split('').filter(c => c != ' ');
+        this.innerSet = new Set(arr);
+        this.r = this.innerSet.size * 10;
+        return this.innerSet;
+    }
 
-   setPos(x0, y0) {
-       this.x = x0; this.y = y0;
-   }
+
+    setPos(x0, y0) {
+        this.x = x0; this.y = y0;
+    }
 
     belong(x, y) {
         let dx = this.x - x;   
@@ -34,17 +35,17 @@ class XSet {
                 return true;           
         }
         return false;
-   }
+    }
 
-   getMatrix() {
-       const res = new Array(N);
-       for (let row = 0; row < N; row++) {
-           res[row] = new Array(N);
-           for (let col = 0; col < N; col++) {
-               let x = col * Kx, y = row * Ky;
-               res[row][col] = this.belong(x, y) ? 1 : 0;
-           }
-       }
-       return res;
-   }
+    getMatrix() {
+        const res = new Array(ROWS);
+        for (let row = 0; row < ROWS; row++) {
+            res[row] = new Array(COLS);
+            for (let col = 0; col < COLS; col++) {
+                let x = col * Kx, y = row * Ky;
+                res[row][col] = this.belong(x, y) ? 1 : 0;
+            }
+        }
+        return res;
+    }
 }

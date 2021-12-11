@@ -7,22 +7,26 @@ let current = null;
 
 draw();
 
-btnA.addEventListener('click', function(e) {
-    current = setA;
-})
+// btnA.addEventListener('click', function(e) {
+//     current = setA;
+// })
 
-btnB.addEventListener('click', function(e) {
-    current = setB;
-})
+// btnB.addEventListener('click', function(e) {
+//     current = setB;
+// })
 
-btnC.addEventListener('click', function(e) {
-    current = setC;
-})
+// btnC.addEventListener('click', function(e) {
+//     current = setC;
+// })
 
 btnGo.addEventListener('click', function(e) {
+    setStage(setA, setB, setC);
+    draw();
+
     current =  null;
     let matrix = calcMatrix(setA, setB, setC);
     draw(matrix);   
+    $exprRes.value = calcExpr(setA, setB, setC);
 })
 
 btnStage.addEventListener('click', function(e) {
@@ -33,22 +37,22 @@ btnStage.addEventListener('click', function(e) {
 
 // mouse events 
 
-canvas.addEventListener('mousedown', function(e) {
-    if (current) {
-        current.x = e.offsetX;
-        current.y = e.offsetY;   
-        current =  null;
-        draw(); 
-    }
-})
+// canvas.addEventListener('mousedown', function(e) {
+//     if (current) {
+//         current.x = e.offsetX;
+//         current.y = e.offsetY;   
+//         current =  null;
+//         draw(); 
+//     }
+// })
 
-canvas.addEventListener('mousemove', function(e) {
-    if (current) {
-        current.x = e.offsetX;
-        current.y = e.offsetY; 
-        draw();       
-    }
-})
+// canvas.addEventListener('mousemove', function(e) {
+//     if (current) {
+//         current.x = e.offsetX;
+//         current.y = e.offsetY; 
+//         draw();       
+//     }
+// })
 //--------------------- test -----------------------------
 btnTest.addEventListener('click', function(e) {
     let i = +inputTest.value;
@@ -60,5 +64,3 @@ btnTest.addEventListener('click', function(e) {
     draw();
     inputTest.value = i + 1;  
 })
-setC.z = 50;
-setC.zr = 20;

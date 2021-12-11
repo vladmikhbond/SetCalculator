@@ -1,16 +1,35 @@
 function calcMatrix(setA, setB, setC) {
-    const op = new Function("a","b","c", "return " + expr.value);
+    const op = new Function("a,b,c", "return " + $expr.value);
     const a = setA.getMatrix();   
     const b = setB.getMatrix();   
     const c = setC.getMatrix();   
 
-    for (let y = 0; y < N; y++) {
-        for (let x = 0; x < N; x++) {
+    for (let y = 0; y < ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
             a[y][x] = op(a[y][x], b[y][x], c[y][x]);
         }
     }
     return a;
 }
+
+function calcExpr(setA, setB, setC) {
+    const op = new Function("a,b,c", "return " + $expr.value);
+    const aKeys = [...setA.innerSet.keys()];
+    const bKeys = [...setB.innerSet.keys()];
+    const cKeys = [...setC.innerSet.keys()];
+    const res = new Set()
+    for (let k of aKeys.concat(bKeys, cKeys)) {
+        let a = setA.innerSet.has(k);
+        let b = setB.innerSet.has(k);
+        let c = setC.innerSet.has(k);
+        if (op(a,b,c)) {
+           res.add(k);
+        }
+    }
+    return [...res.keys()].sort().join('');
+}
+
+
 
 //---------------- Stage suit ----------------------
 
@@ -58,9 +77,11 @@ const stages = [
 ["a-b-c", "bx = ar + br; cx = -ar - cr;", "12345-6789-0asdf"],  // 35
 ["a-ab-b-c", "bx = ar + br - ab; cx = -ar - cr;", "12345-45678-0abcd"],
 ["a-ab-ac-b-c", "bx = ar + br - ab; cx = -ar + ac - cr;", "12345-345678-0a12"],
-["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; let t = ab/2; cx = ar - t; ay=by = -t; cy = t;", "1267-2347-4567"],  // 38
+// ["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; let t = ab/2; cx = ar - t; ay=by = -t; cy = t;", "1267-2347-4567"],  // 38
+["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; czr=bc/2; cr-=czr; cx=-ar+ac-abc-cr; cz=ar-abc+czr-cx;", "1267-2347-4567"],  // 38
 ];
-// alert()
+
+
 
 function setStage(setA, setB, setC) {
     let a = setA.setInnerSet(inputA.value);
@@ -102,13 +123,11 @@ function getVariants(a,b,c) {
 //
 function decode(variants) 
 {    
-
-    let formulaVariants = variants.map(x => x.formula);
-    let formula; 
+    let formulaFromVariants = variants.map(x => x.formula);
     for (let stage of stages) 
     {       
-        formula = stage[0]; 
-        let i = formulaVariants.indexOf(formula);
+        let formula = stage[0]; 
+        let i = formulaFromVariants.indexOf(formula);
         if (i != -1) {
             info.innerHTML = formula;  // for debug          
             doStage(variants[i].permut, stage);
@@ -117,23 +136,6 @@ function decode(variants)
     }
     info.innerHTML = " Not found";
     throw new Error( "Stage not finded.");    
-}
-
-
-function fffff(a, b, c,    x, y, f) {
-    let ax, bx, cx, ay, by, cy, ar, br, cr;
-    let az, bz, cz, azr, bzr, czr; 
-    ax = bx = cx = 0; ay = by = cy = 0; 
-    az = bz = cz = 0; 
-    ar = a.r; br = b.r; cr = c.r;
-    let ab = f(a,b), ac = f(a,c), bc = f(b,c), abc = f(a,b,c);
-    let a_b = g(a,b), b_a = g(b, a);
-    //"a-ac-b-bc", "
-    bx = ar + br; cx = ar + cr - 2*acr;
-    ///
-    a.x = ax + x; a.y = ay + y; a.r = ar; a.z = az; a.zr = azr;    
-    b.x = bx + x; b.y = by + y; b.r = br; b.z = bz; b.zr = bzr;    
-    c.x = cx + x; c.y = cy + y; c.r = cr; c.z = cz; c.zr = czr;        
 }
 
 function doStage(permut, stage) 
@@ -147,17 +149,17 @@ function doStage(permut, stage)
             return counter * 20;        
         }
 
-        function differ(setX, setY) {
-            let counter = 0;
-            for (let k of setX.innerSet.keys())
-                if (setY.innerSet.has(k)) 
-                    counter++;
+        function difference(setX, setY) {
+            let counter = intersect(setX, setY);
             return (setX.innerSet.size - counter) * 20;
         }
 
-    let params = "a, b, c, x, y, f, g";
-    let body = `
-    let ax, bx, cx, ay, by, cy, ar, br, cr;
+    // Устанавливает геометрические свойства экземпляров XSet
+    //
+    const func = new Function (  
+    `a, b, c, x, y, f, g`
+    ,
+    `let ax, bx, cx, ay, by, cy, ar, br, cr;
     let az, bz, cz, azr, bzr, czr; 
     ax = bx = cx = 0; ay = by = cy = 0; 
     az = bz = cz = 0; 
@@ -168,20 +170,17 @@ function doStage(permut, stage)
     a.x = ax + x; a.y = ay + y; a.r = ar; a.z = az; a.zr = azr;    
     b.x = bx + x; b.y = by + y; b.r = br; b.z = bz; b.zr = bzr;    
     c.x = cx + x; c.y = cy + y; c.r = cr; c.z = cz; c.zr = czr;        
-    `;
+    `);
 
-    const func = new Function(params, body);
-
-    let x = canvas.width / 2, y = canvas.height / 2;
-    
+    const x = canvas.width / 2, y = canvas.height / 2;
     switch (permut) {
-        case "abc": func(setA, setB, setC, x, y, intersect, differ); break; 
+        case "abc": func(setA, setB, setC, x, y, intersect, difference); break; 
         // обратные перестановки!  abc->acb ::: abc<-acb ::: a<-a, b<-c; c<-b  :::  ACB
-        case "acb": func(setA, setC, setB, x, y, intersect, differ); break; 
-        case "bac": func(setB, setA, setC, x, y, intersect, differ); break;  
-        case "bca": func(setC, setA, setB, x, y, intersect, differ); break;  
-        case "cab": func(setB, setC, setA, x, y, intersect, differ); break;  
-        case "cba": func(setC, setB, setA, x, y, intersect, differ); break;  
+        case "acb": func(setA, setC, setB, x, y, intersect, difference); break; 
+        case "bac": func(setB, setA, setC, x, y, intersect, difference); break;  
+        case "bca": func(setC, setA, setB, x, y, intersect, difference); break;  
+        case "cab": func(setB, setC, setA, x, y, intersect, difference); break;  
+        case "cba": func(setC, setB, setA, x, y, intersect, difference); break;  
     }
 }
 
