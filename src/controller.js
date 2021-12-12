@@ -2,7 +2,7 @@ const setA = new XSet("red", 60);
 const setB = new XSet("green", 50);
 const setC = new XSet("blue", 40);
 
-draw();
+
 
 btnGo.addEventListener('click', function(e) {
     setStage(setA, setB, setC);
@@ -33,30 +33,36 @@ btnTest.addEventListener('click', function(e) {
 
 
 // learning ---------------------------------------
-for (let i = 0; i < DATA.length; i++) {
-    let btn = document.createElement("button");
-    btn.id="card" + i;
-    btn.className = "btn btn-info"; 
-    btn.innerHTML = i + 1;
-    btn.type = "button";
-    btn.title = DATA[i].h;
-    btn.addEventListener("click", learn);
-    btn.style.marginLeft = "4px";
-    document.getElementById("buttonsDiv").appendChild(btn);
+function makeLearningButtons() {
+    for (let partIdx = 0; partIdx < DATA.length; partIdx++) {
+        let btn = document.createElement("button");
+        btn.id="card" + partIdx;
+        btn.className = "btn btn-info"; 
+        btn.innerHTML = partIdx + 1;
+        btn.type = "button";
+        btn.title = DATA[partIdx].h;
+        btn.addEventListener("click", () => learn(partIdx));
+        btn.style.marginLeft = "4px";
+        document.getElementById("buttonsDiv").appendChild(btn);
+    }
 }
 
-
-function learn() {
-    let i = +this.id.slice(4);
-    cardTitle.innerHTML = `${i+1} ${DATA[i].h}`;
-    let dataT = DATA[i].t.replace( /<<(b):(.*)>>/g,
-        '<span class="config" onclick="learn2(' + i + ',\'$1\')">$2</span>');
+function learn(partIdx) {
+    cardTitle.innerHTML = `${partIdx+1} ${DATA[partIdx].h}`;
+    let dataT = DATA[partIdx].t.replace( /<<(.):(.*)>>/g,
+        '<span class="config" onclick="learn2(' + partIdx + ',\'$1\')">$2</span>');
     cardText.innerHTML = dataT;
-    inputA.value = DATA[i].a[0];
-    inputB.value = DATA[i].a[1];
-    inputC.value = DATA[i].a[2];
-    if (DATA[i].a[3]) inputParams.value = DATA[i].a[3];
-    range.value = DATA[i].m;
-    refresh();
+    inputA.value = DATA[partIdx].a[0];
+    inputB.value = DATA[partIdx].a[1];
+    inputC.value = DATA[partIdx].a[2];
+    if (DATA[partIdx].a[3]) inputParams.value = DATA[partIdx].a[3];
+    draw();
+}
+
+function learn2(partIdx, x) {
+    inputA.value = DATA[partIdx][x][0];
+    inputB.value = DATA[partIdx][x][1];
+    inputC.value = DATA[partIdx][x][2];
+    draw();
 }
 
