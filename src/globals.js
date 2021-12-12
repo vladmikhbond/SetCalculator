@@ -10,3 +10,4 @@ const ROWS = 400;
 const COLS = 400;
 const Kx = canvas.width / COLS;
 const Ky = canvas.height / ROWS;
+let STATE = 0;  // 0-sets, 1-numbers

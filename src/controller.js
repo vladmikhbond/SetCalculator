@@ -1,25 +1,34 @@
-const setA = new XSet("red", 60);
-const setB = new XSet("green", 50);
-const setC = new XSet("blue", 40);
+const setA = new XSet("red");
+const setB = new XSet("green");
+const setC = new XSet("blue");
+
+btnGo.addEventListener('click', refresh);
 
 
+function refresh() {
+    // get inputs
+    setA.setInnerSet(inputA.value);
+    setB.setInnerSet(inputB.value);
+    setC.setInnerSet(inputC.value);
 
-btnGo.addEventListener('click', function(e) {
-    setStage(setA, setB, setC);
-    draw();
+    switch (STATE) {
+        case 0: // sets
+        setStage(setA, setB, setC);
+        drawSets(); 
+        let matrix = calcMatrix(setA, setB, setC);
+        drawSets(matrix);   
+        $exprRes.innerHTML = calcSetExpression(setA, setB, setC);
+        break;
+        case 1: // numbers
+        let setR = calcNumberExpression(setA, setB, setC)
+        drawNumbers(setR);
+        $exprRes.innerHTML = setR.str;
+        break;
+    }
+}
 
-    let matrix = calcMatrix(setA, setB, setC);
-    draw(matrix);   
-    $exprRes.innerHTML = calcExpr(setA, setB, setC);
-})
 
-btnStage.addEventListener('click', function(e) {
-    setStage(setA, setB, setC);
-    draw();
-})
-
-
-//--------------------- test -----------------------------
+//--------------------- test for sets -----------------------------
 btnTest.addEventListener('click', function(e) {
     let i = +inputTest.value;
     let [a,b,c] = stages[i][2].split('-');
@@ -27,7 +36,7 @@ btnTest.addEventListener('click', function(e) {
     inputB.value = b ? b : "";
     inputC.value = c ? c : "";
     setStage(setA, setB, setC);
-    draw();
+    drawSets();
     inputTest.value = i + 1;  
 })
 
@@ -56,13 +65,14 @@ function learn(partIdx) {
     inputB.value = DATA[partIdx].a[1];
     inputC.value = DATA[partIdx].a[2];
     if (DATA[partIdx].a[3]) inputParams.value = DATA[partIdx].a[3];
-    draw();
+    STATE = partIdx;
+    refresh();
 }
 
 function learn2(partIdx, x) {
     inputA.value = DATA[partIdx][x][0];
     inputB.value = DATA[partIdx][x][1];
     inputC.value = DATA[partIdx][x][2];
-    draw();
+    refresh();
 }
 

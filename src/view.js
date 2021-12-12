@@ -1,8 +1,51 @@
-function draw(matrix) 
+//-------------------------numbers---------------------------------
+function drawNumbers(setR) {
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "lightgray";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const sets = [setA, setB, setC, setR];
+    let bins = sets.map(set => set.getBinaryStr());
+    let len = Math.max(...bins.map(b => b.length));
+    bins = bins.map(b => ("00000000000000" + b).slice(-len));
+    
+    const dw = (canvas.width - 100) / len;
+    const dh = (canvas.height - 50) / sets.length;
+    ctx.lineWidth = 3;
+    
+    ctx.font = '36px arial';
+    ctx.textAlign = "center" ;
+    ctx.textBaseline = "middle" ;
+    
+    ctx.strokeStyle = "white";
+
+    for( let r = 0; r < sets.length; r++) {
+        let color = sets[r].color;  
+        for(let c = 0; c < len; c++) {
+            let x = c * dw + 50;
+            let y = r * dh + 20;
+            // move down result line
+            if (r == 3) y += 10;
+            
+            if (bins[r][c] == 1) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, dw, dh);  
+            } 
+            ctx.strokeRect(x, y, dw, dh);
+            // draw 0 or 1
+            ctx.fillStyle = "white";
+            ctx.fillText(bins[r][c], x + dw/2, y+dh/2);
+        }
+    }
+}
+
+//-------------------------sets------------------------------------
+ function drawSets(matrix) 
 {
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     // рисуем круги в порядке возрастания радиуса 
     let sets = [setA, setB, setC].sort((a,b) => {
         // если есть запасное поле, радиус вдвое меньше

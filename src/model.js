@@ -12,7 +12,7 @@ function calcMatrix(setA, setB, setC) {
     return a;
 }
 
-function calcExpr(setA, setB, setC) {
+function calcSetExpression(setA, setB, setC) {
     const op = new Function("a,b,c", "return " + $expr.value);
     const aKeys = [...setA.innerSet.keys()];
     const bKeys = [...setB.innerSet.keys()];
@@ -29,6 +29,13 @@ function calcExpr(setA, setB, setC) {
     return [...res.keys()].sort().join('');
 }
 
+function calcNumberExpression(setA, setB, setC) {
+    let value =  $expr.value.replace(/\*/g, "&").replace(/\+/g, "|");
+    const op = new Function("a,b,c", "return " + value);
+    let setR = new XSet("black");
+    setR.str = op(+setA.str, +setB.str, +setC.str);
+    return setR;
+}
 
 
 //---------------- Stage suit ----------------------
@@ -83,11 +90,7 @@ const stages = [
 
 
 function setStage(setA, setB, setC) {
-    let a = setA.setInnerSet(inputA.value);
-    let b = setB.setInnerSet(inputB.value);
-    let c = setC.setInnerSet(inputC.value);
-
-    decode(getVariants(a,b,c));
+    decode(getVariants(setA.innerSet, setB.innerSet, setC.innerSet));
 }
 
 // Получает три множества и находит формулу их взаимного расположения

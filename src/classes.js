@@ -3,24 +3,25 @@ class XSet {
     constructor(color, r) {
         this.color = color;
         this.r = r;
-        this.x = NaN;
-        this.y = NaN;
+        this.x = 0;
+        this.y = 0;
         this.innerSet = new Set();
+        this.str = "";
         // запасное поле
         this.z = 0;   
         this.zr = 0;
     }
 
     setInnerSet(str) {
+        this.str = str;
         let arr = str.trim().split('').filter(c => c != ' ');
         this.innerSet = new Set(arr);
         this.r = this.innerSet.size * 10;
         return this.innerSet;
     }
 
-
-    setPos(x0, y0) {
-        this.x = x0; this.y = y0;
+    setPos(x, y) {
+        this.x = x; this.y = y;
     }
 
     belong(x, y) {
@@ -47,5 +48,11 @@ class XSet {
             }
         }
         return res;
+    }
+
+    // Если this.str содержит число, возвращает строку с его двоичным представлением
+    getBinaryStr() {
+        let n = Number.parseInt(this.str);
+        return  n ? n.toString(2) : "0";
     }
 }
