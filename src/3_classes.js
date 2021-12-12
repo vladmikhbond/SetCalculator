@@ -7,7 +7,7 @@ class XSet {
         this.y = 0;
         this.innerSet = new Set();
         this.str = "";
-        // запасное поле
+        // запасное поле 
         this.z = 0;   
         this.zr = 0;
     }
@@ -19,6 +19,8 @@ class XSet {
         this.r = this.innerSet.size * 10;
         return this.innerSet;
     }
+
+    // SETS ======================
 
     setPos(x, y) {
         this.x = x; this.y = y;
@@ -50,7 +52,10 @@ class XSet {
         return res;
     }
 
-    // Если this.str содержит число, возвращает строку с его двоичным представлением
+    // NUMBERS =========================================
+
+    // Если this.str содержит число, 
+    // метод возвращает строку с его двоичным представлением
     getBinaryStr() {
         let n = Number.parseInt(this.str);
         return  n ? n.toString(2) : "0";

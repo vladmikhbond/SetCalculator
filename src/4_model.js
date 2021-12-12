@@ -1,5 +1,34 @@
-function calcMatrix(setA, setB, setC) {
-    const op = new Function("a,b,c", "return " + $expr.value);
+function replaceAll(str, x, y) 
+{
+    return str.split('').map(c => {
+        let p = x.indexOf(c);
+        return p > -1 ? y[p] : c;
+    }).join(''); 
+}
+
+// NUMBERS ==========================================================
+function maxBinLength() {
+    let max = Math.max(+setA.str, +setB.str, +setC.str);
+    let len = Math.round(Math.log2(max)) + 1;
+    return len;
+}
+
+
+function calcNumberExpression(setA, setB, setC, expr) {
+    let unit = '(' + (2**maxBinLength()-1) +')';
+    "".toLowerCase()
+    expr = replaceAll(expr.toLowerCase(), "*+!u", ['&','|','~',unit]);
+    const op = new Function("a,b,c", "return " + expr);
+    let setR = new XSet("black");
+    setR.str = op(+setA.str, +setB.str, +setC.str);
+    return setR;
+}
+
+// SETS ===============================
+
+function calcMatrix(setA, setB, setC, expr) {
+
+    const op = new Function("a,b,c", "return " + expr);
     const a = setA.getMatrix();   
     const b = setB.getMatrix();   
     const c = setC.getMatrix();   
@@ -12,8 +41,8 @@ function calcMatrix(setA, setB, setC) {
     return a;
 }
 
-function calcSetExpression(setA, setB, setC) {
-    const op = new Function("a,b,c", "return " + $expr.value);
+function calcSetExpression(setA, setB, setC, expr) {
+    const op = new Function("a,b,c", "return " + expr);
     const aKeys = [...setA.innerSet.keys()];
     const bKeys = [...setB.innerSet.keys()];
     const cKeys = [...setC.innerSet.keys()];
@@ -28,15 +57,6 @@ function calcSetExpression(setA, setB, setC) {
     }
     return [...res.keys()].sort().join('');
 }
-
-function calcNumberExpression(setA, setB, setC) {
-    let value =  $expr.value.replace(/\*/g, "&").replace(/\+/g, "|");
-    const op = new Function("a,b,c", "return " + value);
-    let setR = new XSet("black");
-    setR.str = op(+setA.str, +setB.str, +setC.str);
-    return setR;
-}
-
 
 //---------------- Stage suit ----------------------
 
@@ -87,7 +107,6 @@ const stages = [
 // ["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; let t = ab/2; cx = ar - t; ay=by = -t; cy = t;", "1267-2347-4567"],  // 38
 ["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; czr=bc/2; cr-=czr; cx=-ar+ac-abc-cr; cz=ar-abc+czr-cx;", "1267-2347-4567"],  // 38
 ];
-
 
 function setStage(setA, setB, setC) {
     decode(getVariants(setA.innerSet, setB.innerSet, setC.innerSet));
@@ -185,4 +204,5 @@ function doStage(permut, stage)
         case "cba": func(setC, setB, setA, x, y, intersect, difference); break;  
     }
 }
+
 
