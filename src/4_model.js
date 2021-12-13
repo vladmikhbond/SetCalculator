@@ -9,19 +9,15 @@ function replaceAll(str, x, y)
 // NUMBERS ==========================================================
 
 function maxBinLength() {
-    let max = Math.max(+setA.str, +setB.str, +setC.str);
-    let len = Math.round(Math.log2(max)) + 1;
-    return len;
+    return Math.log2(numU + 1);
 }
-
+const numU = 1023;
 
 function calcNumberExpression(setA, setB, setC, expr) {
-    let unit = '(' + (2**maxBinLength()-1) +')';
-    expr = replaceAll(expr.toLowerCase(), "*+!u", ['&','|','~',unit]);
+    expr = replaceAll(expr.toLowerCase(), "*+!uo", ['&','|','~',numU,0]);
     const op = new Function("a,b,c", "return " + expr);
-    let setR = new XSet("black");
-    setR.str = op(+setA.str, +setB.str, +setC.str);
-    return setR;
+    let str = op(+setA.str, +setB.str, +setC.str);
+    return new XSet("black", str);
 }
 
 // SETS ===============================
