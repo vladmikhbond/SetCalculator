@@ -7,6 +7,7 @@ function replaceAll(str, x, y)
 }
 
 // NUMBERS ==========================================================
+
 function maxBinLength() {
     let max = Math.max(+setA.str, +setB.str, +setC.str);
     let len = Math.round(Math.log2(max)) + 1;
@@ -16,7 +17,6 @@ function maxBinLength() {
 
 function calcNumberExpression(setA, setB, setC, expr) {
     let unit = '(' + (2**maxBinLength()-1) +')';
-    "".toLowerCase()
     expr = replaceAll(expr.toLowerCase(), "*+!u", ['&','|','~',unit]);
     const op = new Function("a,b,c", "return " + expr);
     let setR = new XSet("black");
@@ -27,6 +27,7 @@ function calcNumberExpression(setA, setB, setC, expr) {
 // SETS ===============================
 
 function calcMatrix(setA, setB, setC, expr) {
+    expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
 
     const op = new Function("a,b,c", "return " + expr);
     const a = setA.getMatrix();   
@@ -42,12 +43,17 @@ function calcMatrix(setA, setB, setC, expr) {
 }
 
 function calcSetExpression(setA, setB, setC, expr) {
+
+    expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
+
     const op = new Function("a,b,c", "return " + expr);
     const aKeys = [...setA.innerSet.keys()];
     const bKeys = [...setB.innerSet.keys()];
     const cKeys = [...setC.innerSet.keys()];
+    const uKeys = aKeys.concat(bKeys, cKeys); // keys of U
+    
     const res = new Set()
-    for (let k of aKeys.concat(bKeys, cKeys)) {
+    for (let k of uKeys) {
         let a = setA.innerSet.has(k);
         let b = setB.innerSet.has(k);
         let c = setC.innerSet.has(k);

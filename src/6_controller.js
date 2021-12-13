@@ -1,14 +1,11 @@
-const setA = new XSet("red");
-const setB = new XSet("green");
-const setC = new XSet("blue");
 
 btnGo.addEventListener('click', refresh);
 
 function refresh() {
     // get inputs
-    setA.setInnerSet(inputA.value);
-    setB.setInnerSet(inputB.value);
-    setC.setInnerSet(inputC.value);
+    setA = new XSet("red",   inputA.value);
+    setB = new XSet("green", inputB.value);
+    setC = new XSet("blue",  inputC.value);
 
     switch (STATE) {
         case 0: // SETS

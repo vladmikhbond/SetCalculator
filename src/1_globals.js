@@ -6,7 +6,13 @@ const info = document.getElementById("info");
 
 let STATE = 0;  // 0-sets, 1-numbers
 
-// NUMBERS
+let setA = null;
+let setB = null;
+let setC = null;
+
+
+
+// SETS
 const ROWS = 400;
 const COLS = 400;
 const Kx = canvas.width / COLS;

@@ -1,15 +1,12 @@
 
 class XSet {
-    constructor(color, r) {
+    constructor(color, str) {
         this.color = color;
-        this.r = r;
-        this.x = 0;
-        this.y = 0;
-        this.innerSet = new Set();
-        this.str = "";
+        this.str = str;
+        this.innerSet = this.setInnerSet(str);
+        this.x = this.y = 0;
         // запасное поле 
-        this.z = 0;   
-        this.zr = 0;
+        this.z = this.zr = 0;
     }
 
     setInnerSet(str) {
