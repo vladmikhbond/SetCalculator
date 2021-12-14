@@ -2,29 +2,44 @@
 btnGo.addEventListener('click', refresh);
 
 function refresh() {
-    // get inputs
+    // get inputs                                      todo анализ корректности входов
     setA = new XSet("red",   inputA.value);
     setB = new XSet("green", inputB.value);
     setC = new XSet("blue",  inputC.value);
+    let matrixR = setR = null;
+    let convert = new Convert();
 
     switch (STATE) {
         case 0: // SETS
+        setR = calcSetExpression(setA, setB, setC, $expr.value);
+        // drawing
         setStage(setA, setB, setC);
         drawSets(); 
-        let matrix = calcMatrix(setA, setB, setC, $expr.value);
-        drawSets(matrix);   
-        $exprRes.innerHTML = calcSetExpression(setA, setB, setC, $expr.value);
+        matrixR = calcSetMatrix(setA, setB, setC, $expr.value);
+        drawSets(matrixR);   
         break;
+
         case 1: // NUMBERS
-        let setR = calcNumberExpression(setA, setB, setC, $expr.value);
+        convert.numberToSets(setA, setB, setC);
+        setR = calcSetExpression(setA, setB, setC, $expr.value);
+        convert.setToNumber(setR);
+        // drawing
         drawNumbers(setR);
-        $exprRes.innerHTML = setR.str;
         break;
+
         case 2: // EXTREMS
-        setExtrem(setA, setB, setC); 
-        $exprRes.innerHTML = calcSetExpression(setA, setB, setC, $expr.value);
+        convert.extremToSets(setA, setB, setC); 
+        setR = calcSetExpression(setA, setB, setC, $expr.value);
+        //convert.setToExtrem(setR);
+
+        // drawing
+        setStage(setA, setB, setC);
+        drawSets(); 
+        matrixR = calcSetMatrix(setA, setB, setC, $expr.value);
+        drawSets(matrixR);  
         break;
     }
+    $exprRes.innerHTML = setR.str;
 }
 
 

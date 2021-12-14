@@ -1,41 +1,21 @@
-function replaceAll(str, x, y) 
-{
-    return str.split('').map(c => {
-        let p = x.indexOf(c);
-        return p > -1 ? y[p] : c;
-    }).join(''); 
-}
 
-
-// множеству с наименьшей строкой innerSets = 'x'
-function setExtrem(setA, setB, setC) {
-    let sets = [setA, setB, setC].sort( (x, y) => x.str - y.str);   
-    sets.forEach( s => s.innerSet = new Set());
-    if (sets[0].str > "") { 
-        sets[0].innerSet.add("x"); sets[1].innerSet.add("x"); sets[2].innerSet.add("x");
-    }
-    if (+sets[1].str > +sets[0].str ) {
-        sets[1].innerSet.add("y"); sets[2].innerSet.add("y");
-    }
-    if (+sets[2].str > +sets[1].str ) {
-        sets[2].innerSet.add("z");
-    }  
-}
 
 // NUMBERS ==========================================================
 
-function calcNumberExpression(setA, setB, setC, expr) {
-    const u = 2**maxBinLength - 1;
-    expr = replaceAll(expr.toLowerCase(), "*+!uo", ['&','|','~',u,0]);
-    const op = new Function("a,b,c", "return " + expr);
-    let str = op(+setA.str, +setB.str, +setC.str);
-    return new XSet("black", str);
-}
+// function calcNumberExpression(setA, setB, setC, expr) {
+//     const u = 2**maxBinLength - 1;
+//     expr = replaceAll(expr.toLowerCase(), "*+!uo", ['&','|','~',u,0]);
+//     if (!expr) expr = "0";
+//     const op = new Function("a,b,c", "return " + expr);
+//     let str = op(+setA.str, +setB.str, +setC.str);
+//     return new XSet("black", str);
+// }
 
 // SETS ===============================
 
-function calcMatrix(setA, setB, setC, expr) {
+function calcSetMatrix(setA, setB, setC, expr) {
     expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
+
 
     const op = new Function("a,b,c", "return " + expr);
     const a = setA.getMatrix();   
@@ -69,7 +49,8 @@ function calcSetExpression(setA, setB, setC, expr) {
            res.add(k);
         }
     }
-    return [...res.keys()].sort().join('');
+    let str = [...res.keys()].sort().join('');
+    return new XSet("black", str);
 }
 
 //---------------- Stage suit ----------------------
@@ -80,6 +61,7 @@ function calcSetExpression(setA, setB, setC, expr) {
 // ab, bc, ac, abc - размеры пересечений множеств 
 const stages = [
     
+["", "", ""],
 ["a", "", "12345"],
 ["ab",   "", "12345-12345"],
 ["a-ab", "", "12345-345"],

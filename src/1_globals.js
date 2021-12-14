@@ -17,3 +17,12 @@ const Kx = canvas.width / COLS;
 const Ky = canvas.height / ROWS;
 // NUMBERS
 const maxBinLength = 10;
+
+// Utils ====================================
+function replaceAll(str, x, y) 
+{
+    return str.split('').map(c => {
+        let p = x.indexOf(c);
+        return p > -1 ? y[p] : c;
+    }).join(''); 
+}
