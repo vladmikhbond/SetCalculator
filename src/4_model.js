@@ -1,18 +1,3 @@
-
-
-// NUMBERS ==========================================================
-
-// function calcNumberExpression(setA, setB, setC, expr) {
-//     const u = 2**maxBinLength - 1;
-//     expr = replaceAll(expr.toLowerCase(), "*+!uo", ['&','|','~',u,0]);
-//     if (!expr) expr = "0";
-//     const op = new Function("a,b,c", "return " + expr);
-//     let str = op(+setA.str, +setB.str, +setC.str);
-//     return new XSet("black", str);
-// }
-
-// SETS ===============================
-
 function calcSetMatrix(setA, setB, setC, expr) {
     expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
 

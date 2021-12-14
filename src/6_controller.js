@@ -30,13 +30,13 @@ function refresh() {
         case 2: // EXTREMS
         convert.extremToSets(setA, setB, setC); 
         setR = calcSetExpression(setA, setB, setC, $expr.value);
-        //convert.setToExtrem(setR);
-
+        convert.setToExtrem(setR);
         // drawing
-        setStage(setA, setB, setC);
-        drawSets(); 
-        matrixR = calcSetMatrix(setA, setB, setC, $expr.value);
-        drawSets(matrixR);  
+        drawExtrems(setR);
+        // setStage(setA, setB, setC);
+        // drawSets(); 
+        // matrixR = calcSetMatrix(setA, setB, setC, $expr.value);
+        // drawSets(matrixR);  
         break;
     }
     $exprRes.innerHTML = setR.str;

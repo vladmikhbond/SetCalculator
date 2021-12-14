@@ -63,7 +63,10 @@ function strokeSet(ctx, set) {
 // NUMBERS ===============================
 
 function drawNumbers(setR) {
-    let len = maxBinLength;
+    //let len = maxBinLength;
+    let max = Math.max(...[setA,setB,setC].map(s => +s.str));
+    let len = Math.log2(max) + 1;
+    len = ((len|0) == len) ? len : (len|0);
     let n = +setR.str;
     if (setR.str < 0)  setR.str = 2**len + setR.str;
 
@@ -104,5 +107,32 @@ function drawNumbers(setR) {
             ctx.fillText(bins[r][c], x + dw/2, y+dh/2);
         }
     }
+}
+
+// SETS ===============================
+
+function drawExtrems(setR) 
+{
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "lightgray";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //  
+    let sets = [setA, setB, setC, setR]; 
+    
+    for(let i = 0; i < sets.length; i++) {
+        let x = 20 + i * 120
+        let y = 20;
+        ctx.fillStyle = sets[i].color;
+        ctx.fillRect(x, y, 100, sets[i].str*10);
+    }
+
+    
+    
+    // sets stroke    
+    // ctx.strokeStyle = "white";
+    // for (let s of [setA, setB, setC]) {
+    //     strokeSet(ctx, s);   
+    // }   
 }
 
