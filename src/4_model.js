@@ -6,15 +6,27 @@ function replaceAll(str, x, y)
     }).join(''); 
 }
 
+
+// множеству с наименьшей строкой innerSets = 'x'
+function setExtrem(setA, setB, setC) {
+    let sets = [setA, setB, setC].sort( (x, y) => x.str - y.str);   
+    sets.forEach( s => s.innerSet = new Set());
+    if (sets[0].str > "") { 
+        sets[0].innerSet.add("x"); sets[1].innerSet.add("x"); sets[2].innerSet.add("x");
+    }
+    if (+sets[1].str > +sets[0].str ) {
+        sets[1].innerSet.add("y"); sets[2].innerSet.add("y");
+    }
+    if (+sets[2].str > +sets[1].str ) {
+        sets[2].innerSet.add("z");
+    }  
+}
+
 // NUMBERS ==========================================================
 
-function maxBinLength() {
-    return Math.log2(numU + 1);
-}
-const numU = 1023;
-
 function calcNumberExpression(setA, setB, setC, expr) {
-    expr = replaceAll(expr.toLowerCase(), "*+!uo", ['&','|','~',numU,0]);
+    const u = 2**maxBinLength - 1;
+    expr = replaceAll(expr.toLowerCase(), "*+!uo", ['&','|','~',u,0]);
     const op = new Function("a,b,c", "return " + expr);
     let str = op(+setA.str, +setB.str, +setC.str);
     return new XSet("black", str);
