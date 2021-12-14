@@ -20,6 +20,10 @@ function refresh() {
         drawNumbers(setR);
         $exprRes.innerHTML = setR.str;
         break;
+        case 2: // EXTREMS
+        setExtrem(setA, setB, setC); 
+        $exprRes.innerHTML = calcSetExpression(setA, setB, setC, $expr.value);
+        break;
     }
 }
 

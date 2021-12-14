@@ -63,7 +63,7 @@ function strokeSet(ctx, set) {
 // NUMBERS ===============================
 
 function drawNumbers(setR) {
-    let len = maxBinLength();
+    let len = maxBinLength;
     let n = +setR.str;
     if (setR.str < 0)  setR.str = 2**len + setR.str;
 

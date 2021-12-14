@@ -4,6 +4,7 @@ class XSet {
         this.color = color;
         this.str = str;
         this.innerSet = this.setInnerSet(str);
+        
         this.x = this.y = 0;
         // запасное поле 
         this.z = this.zr = 0;
