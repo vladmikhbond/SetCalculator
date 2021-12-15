@@ -1,3 +1,4 @@
 
 makeLearningButtons();
-refresh();
+//refresh();
+switchTo(0);

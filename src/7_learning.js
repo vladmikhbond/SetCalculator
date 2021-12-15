@@ -13,7 +13,7 @@ function makeLearningButtons() {
 
 function switchTo(partIdx) 
 {
-    cardTitle.innerHTML = `${partIdx+1} ${DATA[partIdx].h}`;
+    cardTitle.innerHTML = DATA[partIdx].h;
     let dataT = DATA[partIdx].t.replace( /<<(.):(.*)>>/g,
         '<span class="config" onclick="switchToPartSection('+ partIdx +',\'$1\')">$2</span>');
     cardText.innerHTML = dataT;
@@ -21,7 +21,7 @@ function switchTo(partIdx)
     inputB.value = DATA[partIdx].a[1];
     inputC.value = DATA[partIdx].a[2];
     if (DATA[partIdx].a[3]) $expr.value = DATA[partIdx].a[3];
-    STATE = partIdx;
+    STATE = partIdx-1;
     refresh();
 }
 

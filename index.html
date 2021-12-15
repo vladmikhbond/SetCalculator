@@ -6,21 +6,24 @@
     <link href="lib/bootstrap.min.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
     <div class="container">
-    <h2>Boolean Calculator</h2>
+    
+    <!-- autocreated buttons -->
+    <div id="buttonsDiv"></div>
+
     <div class="row">
         <div class="col-sm">
 
     <div style="margin-bottom: 6px;">
         <span style="color: red; font: 1em  arial; font-weight: 500;">A = </span> 
-        <input type="text" id="inputA" value="1267">              
+        <input type="text" id="inputA" value="">              
     </div>
     <div style="margin-bottom: 6px;">
         <span style="color: green; font: 1em  arial; font-weight: 500;">B = </span> 
-        <input type="text" id="inputB" value="2347">              
+        <input type="text" id="inputB" value="">              
     </div>
     <div style="margin-bottom: 6px;">
         <span style="color: blue; font: 1em  arial; font-weight: 500;">C = </span> 
-        <input type="text" id="inputC" value="4567">              
+        <input type="text" id="inputC" value="">              
     </div>
     <div style="margin-bottom: 6px;">
         <span style="font: 1em  arial; font-weight: 500;">R = </span> 
@@ -35,9 +38,6 @@
         <button id="btnTest" style="background-color: whitesmoke; color: black">T</button>
         <span id="info" style="width: 200px;" ></span>    
     </div>
-    
-    <!-- autocreated buttons -->
-    <div id="buttonsDiv"></div>
 
     <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>
         
