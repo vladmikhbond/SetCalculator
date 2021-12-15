@@ -15,7 +15,6 @@ function drawSets(matrix)
     for (let set of sets) {
         ctx.fillStyle = set.color;
         fillSet(ctx, set);
-
     }   
     // matrix
     if (matrix) {

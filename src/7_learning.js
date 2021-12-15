@@ -6,27 +6,29 @@ function makeLearningButtons() {
         btn.className = "btn btn-info autogen"; 
         btn.innerHTML = DATA[partIdx].h;
         btn.type = "button";
-        btn.onclick = () => learn(partIdx);
+        btn.onclick = () => switchTo(partIdx);
         document.getElementById("buttonsDiv").appendChild(btn);
     }
 }
 
-function learn(partIdx) {
+function switchTo(partIdx) 
+{
     cardTitle.innerHTML = `${partIdx+1} ${DATA[partIdx].h}`;
     let dataT = DATA[partIdx].t.replace( /<<(.):(.*)>>/g,
-        '<span class="config" onclick="learn2(' + partIdx + ',\'$1\')">$2</span>');
+        '<span class="config" onclick="switchToPartSection('+ partIdx +',\'$1\')">$2</span>');
     cardText.innerHTML = dataT;
     inputA.value = DATA[partIdx].a[0];
     inputB.value = DATA[partIdx].a[1];
     inputC.value = DATA[partIdx].a[2];
-    if (DATA[partIdx].a[3]) inputParams.value = DATA[partIdx].a[3];
+    if (DATA[partIdx].a[3]) $expr.value = DATA[partIdx].a[3];
     STATE = partIdx;
     refresh();
 }
 
-function learn2(partIdx, x) {
-    inputA.value = DATA[partIdx][x][0];
-    inputB.value = DATA[partIdx][x][1];
-    inputC.value = DATA[partIdx][x][2];
+function switchToPartSection(partIdx, letter) {
+    inputA.value = DATA[partIdx][letter][0];
+    inputB.value = DATA[partIdx][letter][1];
+    inputC.value = DATA[partIdx][letter][2];
+    if (DATA[partIdx][letter][3]) $expr.value = DATA[partIdx][letter][3];
     refresh();
 }
