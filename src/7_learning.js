@@ -3,12 +3,10 @@ function makeLearningButtons() {
     for (let partIdx = 0; partIdx < DATA.length; partIdx++) {
         let btn = document.createElement("button");
         btn.id="card" + partIdx;
-        btn.className = "btn btn-info"; 
-        btn.innerHTML = partIdx + 1;
+        btn.className = "btn btn-info autogen"; 
+        btn.innerHTML = DATA[partIdx].h;
         btn.type = "button";
-        btn.title = DATA[partIdx].h;
-        btn.addEventListener("click", () => learn(partIdx));
-        btn.style.marginLeft = "4px";
+        btn.onclick = () => learn(partIdx);
         document.getElementById("buttonsDiv").appendChild(btn);
     }
 }

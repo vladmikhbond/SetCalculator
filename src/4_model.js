@@ -35,7 +35,7 @@ function calcSetExpression(setA, setB, setC, expr) {
         }
     }
     let str = [...res.keys()].sort().join('');
-    return new XSet("black", str);
+    return new XSet("white", str);
 }
 
 //---------------- Stage suit ----------------------

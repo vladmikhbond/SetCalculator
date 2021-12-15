@@ -1,10 +1,9 @@
 // SETS ===============================
 
- function drawSets(matrix) 
+function drawSets(matrix) 
 {
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "lightgray";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    clear(ctx);
 
     // рисуем круги в порядке возрастания радиуса 
     let sets = [setA, setB, setC].sort((a,b) => {
@@ -25,7 +24,8 @@
             for (let col = 0; col < COLS; col++) {
                 if (matrix[row][col]) {  
                     let x = col * Kx, y = row * Ky;
-                    ctx.fillStyle = row % 3 ? "black" : "white";
+                    //ctx.fillStyle = row % 3 ? "black" : "white";
+                    ctx.fillStyle = "white";
                     ctx.fillRect(x - Kx/2, y - Ky/2, D, D);                
                 }
             }
@@ -36,6 +36,11 @@
     for (let s of [setA, setB, setC]) {
         strokeSet(ctx, s);   
     }   
+}
+
+function clear(ctx) {
+    ctx.fillStyle = "gray";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function fillSet(ctx, set) {
@@ -72,9 +77,7 @@ function drawNumbers(setR) {
 
 
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "lightgray";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    clear(ctx);
     const sets = [setA, setB, setC, setR];
     let bins = sets.map(set => set.getBinaryStr());
     bins = bins.map(b => ("00000000000000000000000000000" + b).slice(-len));
@@ -87,52 +90,53 @@ function drawNumbers(setR) {
     ctx.textAlign = "center" ;
     ctx.textBaseline = "middle" ;
     
-    ctx.strokeStyle = "white";
+    
 
-    for( let r = 0; r < sets.length; r++) {
-        let color = sets[r].color;  
-        for(let c = 0; c < len; c++) {
-            let x = c * dw + 50;
-            let y = r * dh + 20;
-            // move down result line
-            if (r == 3) y += 10;
-            
-            if (bins[r][c] == 1) {
-                ctx.fillStyle = color;
-                ctx.fillRect(x, y, dw, dh);  
-            } 
+    for( let row = 0; row < sets.length; row++) {
+        let color = sets[row].color;  
+        for(let col = 0; col < len; col++) {
+            let x = col * dw + 50;
+            let y = row * dh + 20;
+            if (row == 3) y += 10;
+            // draw cell
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, dw, dh); 
+            ctx.strokeStyle = (row == 3) ? "black" : "white";
             ctx.strokeRect(x, y, dw, dh);
-            // draw 0 or 1
-            ctx.fillStyle = "white";
-            ctx.fillText(bins[r][c], x + dw/2, y+dh/2);
+            // draw text in a cell
+            ctx.fillStyle = (row == 3) ? "black" : "white";
+            ctx.fillText(bins[row][col], x + dw/2, y+dh/2);
         }
     }
 }
 
-// SETS ===============================
+// EXTREMS ===============================
 
+const bears = [new Image(), new Image(), new Image(), new Image()]; 
+bears.forEach((img, i) => img.src = `pic/bear${i}.png`)
+//
 function drawExtrems(setR) 
 {
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "lightgray";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    clear(ctx);
     //  
-    let sets = [setA, setB, setC, setR]; 
+    let sets = [setA, setB, setC, setR];
+    let maxH = Math.max(...sets.map(s => +s.str));
+    sets.forEach( (s, i) => {
+        s.img = bears[i]; 
+        s.h = s.str * (canvas.height - 10) / maxH;
+        s.w = s.h * 265 / 400;
+        s.x = 10 + i * 120;
+        s.y = canvas.height - s.h;
+    });
     
-    for(let i = 0; i < sets.length; i++) {
-        let x = 20 + i * 120
-        let y = 20;
-        ctx.fillStyle = sets[i].color;
-        ctx.fillRect(x, y, 100, sets[i].str*10);
+    sets.sort((a, b) => b.str - a.str);
+    
+    for(let set of sets) {
+        ctx.drawImage(set.img, set.x, set.y, set.w, set.h);
     }
 
     
-    
-    // sets stroke    
-    // ctx.strokeStyle = "white";
-    // for (let s of [setA, setB, setC]) {
-    //     strokeSet(ctx, s);   
-    // }   
+ 
 }
 

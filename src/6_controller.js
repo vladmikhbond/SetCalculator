@@ -2,7 +2,7 @@
 btnGo.addEventListener('click', refresh);
 
 function refresh() {
-    // get inputs                                      todo анализ корректности входов
+    // get inputs                                    //  todo анализ корректности входов
     setA = new XSet("red",   inputA.value);
     setB = new XSet("green", inputB.value);
     setC = new XSet("blue",  inputC.value);
@@ -23,7 +23,6 @@ function refresh() {
         convert.numberToSets(setA, setB, setC);
         setR = calcSetExpression(setA, setB, setC, $expr.value);
         convert.setToNumber(setR);
-        // drawing
         drawNumbers(setR);
         break;
 
@@ -31,21 +30,14 @@ function refresh() {
         convert.extremToSets(setA, setB, setC); 
         setR = calcSetExpression(setA, setB, setC, $expr.value);
         convert.setToExtrem(setR);
-        // drawing
         drawExtrems(setR);
-        // setStage(setA, setB, setC);
-        // drawSets(); 
-        // matrixR = calcSetMatrix(setA, setB, setC, $expr.value);
-        // drawSets(matrixR);  
         break;
     }
     $exprRes.innerHTML = setR.str;
 }
 
 
-// SETS ============================================
-
-// test for sets 
+// test for sets only
 btnTest.addEventListener('click', function(e) {
     let i = +inputTest.value;
     let [a,b,c] = stages[i][2].split('-');

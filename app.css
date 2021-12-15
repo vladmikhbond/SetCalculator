@@ -1,0 +1,20 @@
+#buttonsDiv {
+   margin-bottom: 6px;
+   width: 512px;
+   text-align: center;
+}
+.autogen {
+   margin-left: 10px;
+   width: 140px;
+}
+#inputA, #inputB, #inputC {
+   width: 482px; 
+}#inputA {
+   border-color: red
+}
+#inputB {
+   border-color: green
+}
+#inputC { 
+   border-color: blue
+}
