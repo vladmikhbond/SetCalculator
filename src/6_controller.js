@@ -6,12 +6,14 @@ function refresh() {
     setA = new XSet("red",   inputA.value);
     setB = new XSet("green", inputB.value);
     setC = new XSet("blue",  inputC.value);
+    setU = new XSet("",  "");
     let matrixR = setR = null;
     let convert = new Convert();
 
     switch (STATE) {
         case 0: // SETS
-        setR = calcSetExpression(setA, setB, setC, $expr.value);
+        convert.fromSet();    
+        setR = calcExpression(setA, setB, setC, $expr.value);
         // drawing
         setStage(setA, setB, setC);
         drawSets(); 
@@ -20,20 +22,20 @@ function refresh() {
         break;
 
         case 1: // NUMBERS
-        convert.numberToSets(setA, setB, setC);
-        setR = calcSetExpression(setA, setB, setC, $expr.value);
-        convert.setToNumber(setR);
+        convert.fromNumber();
+        setR = calcExpression(setA, setB, setC, $expr.value);
+        convert.toNumber(setR);
         drawNumbers(setR);
         break;
 
         case 2: // EXTREMS
-        convert.extremToSets(setA, setB, setC); 
-        setR = calcSetExpression(setA, setB, setC, $expr.value);
-        convert.setToExtrem(setR);
+        convert.fromExtrem(); 
+        setR = calcExpression(setA, setB, setC, $expr.value);
+        convert.toExtrem(setR);
         drawExtrems(setR);
         break;
     }
-    $exprRes.innerHTML = setR.str;
+    if (STATE != -1) $exprRes.innerHTML = setR.str;
 }
 
 

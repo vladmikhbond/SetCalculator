@@ -15,16 +15,13 @@ function calcSetMatrix(setA, setB, setC, expr) {
     return a;
 }
 
-function calcSetExpression(setA, setB, setC, expr) {
+function calcExpression(setA, setB, setC, expr) {
 
     expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
 
     const op = new Function("a,b,c", "return " + expr);
-    const aKeys = [...setA.innerSet.keys()];
-    const bKeys = [...setB.innerSet.keys()];
-    const cKeys = [...setC.innerSet.keys()];
-    const uKeys = aKeys.concat(bKeys, cKeys); // keys of U
-    
+    const uKeys = [...setU.innerSet.keys()].map(x => x.toString()); 
+
     const res = new Set()
     for (let k of uKeys) {
         let a = setA.innerSet.has(k);
@@ -40,6 +37,7 @@ function calcSetExpression(setA, setB, setC, expr) {
 
 //---------------- Stage suit ----------------------
 
+// Описание сцен: [формула, алгоритм, тестовый_пример]
 // ax = 0; ay = 0;   - по умолчанию    
 // ax, bx, cx - центры кругов, ar, br, cr - радиусы кругов
 // cz - расстояние по гориз до запасного поля, , czr - радиус
@@ -125,11 +123,11 @@ function getVariants(a,b,c) {
 //
 function decode(variants) 
 {    
-    let formulaFromVariants = variants.map(x => x.formula);
+    let formulasFromVariants = variants.map(x => x.formula);
     for (let stage of stages) 
     {       
         let formula = stage[0]; 
-        let i = formulaFromVariants.indexOf(formula);
+        let i = formulasFromVariants.indexOf(formula);
         if (i != -1) {
             info.innerHTML = formula;  // for debug          
             doStage(variants[i].permut, stage);
@@ -140,6 +138,8 @@ function decode(variants)
     throw new Error( "Stage not finded.");    
 }
 
+// Создает сцену
+//
 function doStage(permut, stage) 
 {
         function intersect(setX, setY, setZ) {
@@ -173,8 +173,9 @@ function doStage(permut, stage)
     b.x = bx + x; b.y = by + y; b.r = br; b.z = bz; b.zr = bzr;    
     c.x = cx + x; c.y = cy + y; c.r = cr; c.z = cz; c.zr = czr;        
     `);
-
+     
     const x = canvas.width / 2, y = canvas.height / 2;
+
     switch (permut) {
         case "abc": func(setA, setB, setC, x, y, intersect, difference); break; 
         // обратные перестановки!  abc->acb ::: abc<-acb ::: a<-a, b<-c; c<-b  :::  ACB

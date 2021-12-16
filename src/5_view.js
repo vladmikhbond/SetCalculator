@@ -4,7 +4,7 @@ function drawSets(matrix)
 {
     const ctx = canvas.getContext("2d");
     clear(ctx);
-
+    ctx.lineWidth = 2;
     // рисуем круги в порядке возрастания радиуса 
     let sets = [setA, setB, setC].sort((a,b) => {
         // если есть запасное поле, радиус вдвое меньше
@@ -67,12 +67,11 @@ function strokeSet(ctx, set) {
 // NUMBERS ===============================
 
 function drawNumbers(setR) {
-    //let len = maxBinLength;
     let max = Math.max(...[setA,setB,setC].map(s => +s.str));
     let len = Math.log2(max) + 1;
     len = ((len|0) == len) ? len : (len|0);
-    let n = +setR.str;
-    if (setR.str < 0)  setR.str = 2**len + setR.str;
+    
+
 
 
     const ctx = canvas.getContext("2d");
@@ -83,7 +82,7 @@ function drawNumbers(setR) {
     
     const dw = (canvas.width - 100) / len;
     const dh = (canvas.height - 50) / sets.length;
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2;
     
     ctx.font = '36px arial';
     ctx.textAlign = "center" ;
