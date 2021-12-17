@@ -67,33 +67,29 @@ function strokeSet(ctx, set) {
 // NUMBERS ===============================
 
 function drawNumbers(setR) {
-    let max = Math.max(...[setA,setB,setC].map(s => +s.str));
-    let len = Math.log2(max) + 1;
-    len = ((len|0) == len) ? len : (len|0);
     
-
-
-
     const ctx = canvas.getContext("2d");
     clear(ctx);
+    ctx.font = '36px arial';
+    ctx.textAlign = "center" ;
+    ctx.textBaseline = "middle" ;
+
+    let len = setU.innerSet.size;
     const sets = [setA, setB, setC, setR];
     let bins = sets.map(set => set.getBinaryStr());
     bins = bins.map(b => ("00000000000000000000000000000" + b).slice(-len));
     
-    const dw = (canvas.width - 100) / len;
+    const dw = (canvas.width - 40) / len;
     const dh = (canvas.height - 50) / sets.length;
     ctx.lineWidth = 2;
     
-    ctx.font = '36px arial';
-    ctx.textAlign = "center" ;
-    ctx.textBaseline = "middle" ;
     
     
 
     for( let row = 0; row < sets.length; row++) {
         let color = sets[row].color;  
         for(let col = 0; col < len; col++) {
-            let x = col * dw + 50;
+            let x = col * dw + 20;
             let y = row * dh + 20;
             if (row == 3) y += 10;
             // draw cell
@@ -119,13 +115,13 @@ function drawExtrems(setR)
     clear(ctx);
     //  
     let sets = [setA, setB, setC, setR];
-    let maxH = Math.max(...sets.map(s => +s.str));
-    sets.forEach( (s, i) => {
-        s.img = bears[i]; 
-        s.h = s.str * (canvas.height - 10) / maxH;
-        s.w = s.h * 265 / 400;
-        s.x = 10 + i * 120;
-        s.y = canvas.height - s.h;
+    let maxHeigh = Math.max(...sets.map(s => +s.str));
+    sets.forEach( (set, i) => {
+        set.img = bears[i]; 
+        set.h = set.str * (canvas.height - 10) / maxHeigh;
+        set.w = set.h * 265 / 400;
+        set.x = 10 + i * 120;
+        set.y = canvas.height - set.h;
     });
     
     sets.sort((a, b) => b.str - a.str);

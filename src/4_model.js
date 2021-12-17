@@ -1,7 +1,87 @@
-function calcSetMatrix(setA, setB, setC, expr) {
-    expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
+//======================= Subst Operations Suit =========================
 
+// Подстановка всех операций
+function substOperators(definitions, expr) {
+    let ds = definitions.replace(/\s/g, '').split(';');
+    for (let d of ds) {
+        expr = substOperator(d, expr);
+    }
+    return expr;
+}
 
+// Подстановка определения новой бинарной операции в выражение
+//   ! считается, что приоритет новой операции наивысший !
+// newOp("L > R = !L+R",      "(a + b) > (c * d)")
+// newOp("L = R = !L*!R+L*R", "(a * b) = (c = d)")
+//
+function substOperator(definition, expr) 
+{    
+    // устранить пробелы
+    let d = definition.replace(/\s/g, '');
+    expr = expr.replace(/\s/g, '');
+    // разобрать определение на 4 части: L O R = T
+    let p = d.indexOf('=', 3); 
+    let [L, O, R, T] = [d[0], d.slice(1, p-1), d[p-1], d.slice(p+1) ];
+        
+    while(expr.indexOf(O) != -1) {  
+        // гранцы операндов в выражении: p1===p2 (оператор) p3===p4
+        let p2 = expr.indexOf(O);
+        if (p2 == -1) return;
+        let p1 = p2 - 1;
+        if (expr[p1] == ')') {
+           p1 = posOfParentheses(expr, p1);
+        }
+        let p3 = p2 + O.length;
+        let p4 = p3 + 1;
+        if (expr[p3] == '(') {
+            p4 = posOfParentheses(expr, p3) + 1;
+        } 
+        let L1 = `(${expr.slice(p1, p2)})`;
+        let R1 = `(${expr.slice(p3, p4)})`;
+        
+        console.log("operands", L1, R1)   // DEBUG
+
+        // изготовить подстановку
+        // заместить L
+        let substitution = T.replace(new RegExp(L, 'g'), L1);
+        // заместить R
+        substitution = substitution.replace(new RegExp(R, 'g'), R1); 
+        // вставить подстановку в выражение
+        expr = expr.slice(0, p1) + '(' + substitution + ')' + expr.slice(p4);   
+        console.log("expression",  expr);   // DEBUG  
+    }
+    return expr;
+}
+
+// Возвращает позицию парной скобки в строке expr
+// pos - позиция исходной скобки 
+function posOfParentheses(expr, pos) {
+    let step = expr[pos] == '(' ? 1 : -1;
+    let goal = expr[pos] == '(' ? ')' : '(';    
+    let counter = 1;
+    for (let i = pos + step; ; i += step) {
+        if (expr[i] == goal) counter--;
+        if (expr[i] == expr[pos]) counter++;
+        if (counter == 0) 
+           return i;
+    }
+}  
+
+// Делает подстановки в str: вместо всех вхождений символа xs[i] подставляет строку y[i].
+// xs - строка или массив символов, ys - строка или массив строк. 
+function replaceAll(str, xs, ys) 
+{
+    return str.split('').map(c => {
+        let p = xs.indexOf(c);
+        return p > -1 ? ys[p] : c;
+    }).join(''); 
+}
+
+//======================= Set Calculation Suit =========================
+
+function calcMatrix(setA, setB, setC, expr) {
+    if (!expr)
+       return null;
     const op = new Function("a,b,c", "return " + expr);
     const a = setA.getMatrix();   
     const b = setB.getMatrix();   
@@ -16,7 +96,8 @@ function calcSetMatrix(setA, setB, setC, expr) {
 }
 
 function calcExpression(setA, setB, setC, expr) {
-
+    if (!expr)
+        return new XSet("",  "");
     expr = replaceAll(expr.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
 
     const op = new Function("a,b,c", "return " + expr);
@@ -35,7 +116,8 @@ function calcExpression(setA, setB, setC, expr) {
     return new XSet("white", str);
 }
 
-//---------------- Stage suit ----------------------
+
+//======================= Set Stage Suit =========================
 
 // Описание сцен: [формула, алгоритм, тестовый_пример]
 // ax = 0; ay = 0;   - по умолчанию    
