@@ -17,8 +17,6 @@ class XSet {
         return this.innerSet;
     }
 
-    // SETS ======================
-
     setPos(x, y) {
         this.x = x; this.y = y;
     }
@@ -48,8 +46,6 @@ class XSet {
         }
         return res;
     }
-
-    // NUMBERS =========================================
 
     // Если this.str содержит число, 
     // метод возвращает строку с его двоичным представлением

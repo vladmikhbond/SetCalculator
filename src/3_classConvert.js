@@ -1,5 +1,7 @@
-// Преобразует строку str в множество innerSet и обратно.
-// Другие члены не затрагивает.
+// Преобразует строку XSet.str в множество XSet.innerSet, другие члены не затрагивает.
+// Делает это для setA, setB, setC и setU.
+// Обратное преобразование выполняет для setR.
+// 
 class Convert {
     constructor() {
         this.map = new Map();
@@ -12,6 +14,36 @@ class Convert {
         const cKeys = [...setC.innerSet.keys()];
         const uKeys = aKeys.concat(bKeys, cKeys); 
         setU.setInnerSet(uKeys.join('')); 
+    }
+
+    
+    //  15 (1111) -> "0123",  5 (101)-> "02"
+    fromNumber() { 
+        function helper (binStr) { 
+            let binArray = binStr.split('').reverse();
+            let s = binArray
+            .map((c, i) => c == '0' ? -1 : String.fromCharCode(i + 48))
+            .filter(x => x != -1)
+            .join('');
+            return s;                    
+        }
+
+        [setA, setB, setC].forEach(set => {
+            let s = helper(set.getBinaryStr());
+            set.setInnerSet(s);
+        });  
+        // convert universum 
+        let max = Math.max(...[setA,setB,setC].map(s => +s.str));
+        let len = Math.log2(max) + 1;
+        len = ((len|0) == len) ? len : (len|0);        
+        setU.innerSet = new Set(Array(len).keys());
+
+    }
+
+    toNumber(setR) {  
+        let n = [...setR.innerSet.keys()]
+        .reduce((a, x) => a + 2**(x.codePointAt(0) - 48), 0);
+        setR.str = n;
     }
 
 
@@ -46,34 +78,5 @@ class Convert {
         setR.str = sum; 
     }
 
-
-    //  15 (1111) -> "0123",  5 (101)-> "02"
-    fromNumber() { 
-                function helper (binStr) { 
-                    let binArray = binStr.split('').reverse();
-                    let s = binArray
-                    .map((c, i) => c == '0' ? -1 : String.fromCharCode(i + 48))
-                    .filter(x => x != -1)
-                    .join('');
-                    return s;                    
-                }
-        
-        [setA, setB, setC].forEach(set => {
-            let s = helper(set.getBinaryStr());
-            set.setInnerSet(s);
-        });  
-        // convert universum 
-        let max = Math.max(...[setA,setB,setC].map(s => +s.str));
-        let len = Math.log2(max) + 1;
-        len = ((len|0) == len) ? len : (len|0);        
-        setU.innerSet = new Set(Array(len).keys());
-
-    }
-
-    toNumber(setR) {  
-        let n = [...setR.innerSet.keys()]
-           .reduce((a, x) => a + 2**(x.codePointAt(0) - 48), 0);
-        setR.str = n;
-    }
 
 }
