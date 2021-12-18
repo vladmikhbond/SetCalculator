@@ -69,22 +69,27 @@ function setStageByIdx(idx) {
 }
 
 
+const accordeon = (function () {
 
-
-let timer = null;
-
-function accordeon() {
+    let timer = null;
     let i = 1;
-    if (timer) {
-        clearInterval(timer);
-        timer = null;
-        return;
-    }
-    timer = setInterval(() => { 
-        setStageByIdx(i++);
-        if (i >= stages.length) {
+    let interval = 800;
+
+    return function() {    
+        if (timer) {
             clearInterval(timer);
             timer = null;
+            return;
         }
-    }, 1500);
-}
+        timer = setInterval(() => { 
+            setStageByIdx(i++);
+            if (i >= stages.length) {
+                clearInterval(timer);
+                timer = null;
+                i = 1;
+            }
+        }, interval);
+    }
+
+})();
+
