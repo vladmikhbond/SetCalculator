@@ -21,7 +21,7 @@ function switchTo(partIdx)
     inputA.value = DATA[partIdx].a.A;
     inputB.value = DATA[partIdx].a.B;
     inputC.value = DATA[partIdx].a.C;
-    $expr.value  = DATA[partIdx].a.R;
+    $expr.value  = DATA[partIdx].a.E;
     $oper.value  = DATA[partIdx].a.O;
     STATE = partIdx-1;
     refresh();
@@ -31,7 +31,7 @@ function switchToPartSection(partIdx, letter) {
     inputA.value = DATA[partIdx][letter].A;
     inputB.value = DATA[partIdx][letter].B;
     inputC.value = DATA[partIdx][letter].C;
-    $expr.value  = DATA[partIdx][letter].R;
+    $expr.value  = DATA[partIdx][letter].E;
     $oper.value  = DATA[partIdx][letter].O;
     refresh();
 }
