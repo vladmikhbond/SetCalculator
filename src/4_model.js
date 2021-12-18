@@ -2,7 +2,7 @@
 
 // Подстановка всех операций
 function substOperators(definitions, expr) {
-    let ds = definitions.replace(/\s/g, '').split(';');
+    let ds = definitions.replace(/\s/g, '').split(';').filter(d => d != '');
     for (let d of ds) {
         expr = substOperator(d, expr);
     }
@@ -131,42 +131,51 @@ const stages = [
 ["ab",   "", "12345-12345"],
 ["a-ab", "", "12345-345"],
 ["abc",      "", "12345-12345-12345"],
-["a-abc",    "", "12345-345-345"],
-["ab-abc",   "", "12345-12345-345"],    // 5
+["a-abc",    "", "12345-345-345"],    // 5
+["ab-abc",   "", "12345-12345-345"],   
 ["a-ab-abc", "", "12345-2345-345"],
 ["ab-ac",     "bx = -ar + br; cx = ar - cr;", "12345-123-45"],
 ["a-ab-ac",   "bx = -ar + br; cx = ar - cr;", "123456-123-45"],
-["ab-abc-ac", "bx = -ar + br; cx = ar - cr;", "123456-1234-3456"],
-["a-ab-abc-ac",  "bx = -ar + br; cx = bx + br + cr - 2*bc;", "1234567-1234-3456"],  // 10
+["ab-abc-ac", "bx = -ar + br; cx = ar - cr;", "123456-1234-3456"],   // 10
+["a-ab-abc-ac",  "bx = -ar + br; cx = bx + br + cr - 2*bc;", "1234567-1234-3456"], 
 ["a-b", "bx = ar + br;", "1234-5678"],
 ["a-ab-b",  "bx = ar + br - ab; ", "12345-34567"],
 ["a-abc-b", "bx = ar + br - ab; cx = ar - cr;", "12345-3456-345"],
-["a-ab-abc-b", "bx = ar + br - ab; cx = ar - cr;", "12345-34567-45"],
-["ac-b", "bx = ar + br; cy = 2;",  "1234-5678-1234"],   // 15
+["a-ab-abc-b", "bx = ar + br - ab; cx = ar - cr;", "12345-34567-45"],  // 15
+["ac-b", "bx = ar + br; cy = 2;",  "1234-5678-1234"],  
 ["a-ac-b", "bx = ar + br; cx = ar - cr;", "1234-5678-123"],
 ["ab-ac-b", "bx = br - ar + 2 * cr; cx = cr - ar;", "1234-3456-12"],
 ["a-ab-ac-b", "bx = ar + br - ab; cx = cr-ar;", "12345-4567-12"],
-["abc-ac-b", "bx = ar + br - ab; cy = 2", "12345-4567-12345"],
-["a-abc-ac-b", "bx = ar + br - ab; cx = ar - cr;", "12345-4567-2345"], // 20
+["abc-ac-b", "bx = ar + br - ab; cy = 2", "12345-4567-12345"],   // 20
+["a-abc-ac-b", "bx = ar + br - ab; cx = ar - cr;", "12345-4567-2345"], 
 ["ab-abc-ac-b", "bx = ar + br - ab; cx = cr - ar;", "12345-4567-1234"],
-["a-ab-abc-ac-b", "bx = ar + br - ab; cx = a_b + abc - ar - cr;", "12345-4567-234"],
+["a-ab-abc-ac-b", "bx = ar + br - ab;  cx = ar - ab + abc - cr;", "12345-4567-234"], 
 ["ab-ac-bc", "bx = ar + br - ab; czr = br-ab/2; cr -= czr; cx=-ar+cr; cz =bx+br-czr-cx;", "12345-45678-123678"],
-["a-ab-ac-bc", "bx = ar + br - ab; czr = b_a/2; cr -= czr; cx = cr - ar; cz = bx + br - cr - cx;", "012345-45678-123678"],
-["ab-abc-ac-bc", "bx = ar + br - ab; czr = (b_a + abc)/2; cr -= czr; cx = -ar + cr; cz = bx + br - czr - cx;", "12345-45678-1235678"], //25
+
+
+
+
+["a-ab-ac-bc", "bx = ar + br - ab; czr = b_a/2; cr -= czr; cx = cr - ar; cz = bx + br - czr - cx;", "012345-45678-123678"], //25
+
+
+
+["ab-abc-ac-bc", "bx = ar + br - ab; czr = (2*br - ab + abc)/2; cr -= czr; cx = ar - ab - cr; cz = bx + br - czr - cx;", "12345-45678-1235678"],  //26
+
 ["a-ab-abc-ac-bc", "bx = ar + br - ab;  czr = b_a/2; cr -= czr; cx = bx - br+abc/2-cr;  cz = bx + br - czr - cx;", "012345-345678-0145678"],
 ["a-ab-ac-b-bc", "bx = ar + br - ab;  czr = bc/2; cr -= czr; cx = -ar + ac - cr;  cz = bx + br - czr - cx;", "012345-345678-018"],
+
 ["a-ab-abc-ac-b-bc", "bx = ar + br - ab; cr=ac/2; czr=(bc-abc)/2; cx = bx-br+abc- cr; cz = ar + czr - cx;", "012345-345678-2348"],
-["a-abc-b-c", "bx = ar + br - ab;  let t = abc/2;  czr = cr - t; cr = t; cx = ar-cr; cz = bx + br + czr - cx;", "012345-345678-3459a"],
-["a-ab-abc-b-c", "bx = ar + br - ab;  czr = abc/2;  cr -= czr;  cx = -ar -cr;  cz = bx-br+czr-cx;", "012345-345678-349a"], // 30
+["a-abc-b-c", "bx = ar + br - ab;  let t = abc/2;  czr = cr - t; cr = t; cx = ar-cr; cz = bx + br + czr - cx;", "012345-345678-3459a"],  // 30
+["a-ab-abc-b-c", "bx = ar + br - ab;  czr = abc/2;  cr -= czr;  cx = -ar -cr;  cz = bx-br+czr-cx;", "012345-345678-349a"],
 ["a-ab-abc-ac-b-c", "bx = ar + br - ab;  czr = abc/2;  cr -= czr;  cx = -ar +ac/2 -cr;  cz = bx-br+czr-cx;", "12345-345678-ab134"], 
 ["a-ab-ac-b-bc-c", "bx = ar + br - ab; czr = bc/2;  cr -= czr;  cx = -ar +ac/2 -cr;  cz = bx+br-czr-cx;", "12345-345678-0178"],  
 ["a-ac-b-bc", "bx = ar + br; cx = ar + cr - ac;", "12345-6789-4567"], 
-["a-abc-ac-b-bc", "bx = ar + br - ab; cx = ar - ac + cr;", "012345-456789-23456"],
-["a-b-c", "bx = ar + br; cx = -ar - cr;", "12345-6789-0asdf"],  // 35
+["a-abc-ac-b-bc", "bx = ar + br - ab; cx = ar - ac + cr;", "012345-456789-23456"],   // 35
+["a-b-c", "bx = ar + br; cx = -ar - cr;", "12345-6789-0asdf"],
 ["a-ab-b-c", "bx = ar + br - ab; cx = -ar - cr;", "12345-45678-0abcd"],
 ["a-ab-ac-b-c", "bx = ar + br - ab; cx = -ar + ac - cr;", "12345-345678-0a12"],
-// ["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; let t = ab/2; cx = ar - t; ay=by = -t; cy = t;", "1267-2347-4567"],  // 38
-["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; czr=bc/2; cr-=czr; cx=-ar+ac-abc-cr; cz=ar-abc+czr-cx;", "1267-2347-4567"],  // 38
+["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; let t = ab/2; cx = ar - t; ay=by = -t; cy = t;", "1267-2347-4567"],  // 39
+//["a-ab-abc-ac-b-bc-c", "bx = ar + br - ab; czr=bc/2; cr-=czr; cx=-ar+ac-abc-cr; cz=ar-abc+czr-cx;", "1267-2347-4567"],  // 39
 ];
 
 function setStage(setA, setB, setC) {
@@ -234,7 +243,10 @@ function doStage(permut, stage)
         }
 
         function difference(setX, setY) {
-            let counter = intersect(setX, setY);
+            let counter = 0;
+            for (let k of setX.innerSet.keys())
+                if (setY.innerSet.has(k)) 
+                    counter++;
             return (setX.innerSet.size - counter) * 20;
         }
 

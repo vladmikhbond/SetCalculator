@@ -7,45 +7,44 @@
     <link href="app.css" rel="stylesheet">
     <div class="container">
     
-    <!-- autocreated buttons -->
-    <div id="buttonsDiv"></div>
 
     <div class="row">
-        <div class="col-sm">
+    <div class="col-sm">
+        <!-- autocreated buttons -->
+        <div id="buttonsDiv" class="btn-group" role="group" aria-label="Basic example"></div>
 
-    <div style="margin-bottom: 6px;">
-        <span style="color: red; font: 1em  arial; font-weight: 500;">A = </span> 
-        <input type="text" id="inputA" value="">              
-    </div>
-    <div style="margin-bottom: 6px;">
-        <span style="color: green; font: 1em  arial; font-weight: 500;">B = </span> 
-        <input type="text" id="inputB" value="">              
-    </div>
-    <div style="margin-bottom: 6px;">
-        <span style="color: blue; font: 1em  arial; font-weight: 500;">C = </span> 
-        <input type="text" id="inputC" value="">              
-    </div>
-    <div style="margin-bottom: 6px;">
-        <span style="font: 1em  arial; font-weight: 500;">O = </span> 
-        <input type="text" id="oper" value="x = y = !x*!y + x*y;   x - y = x * !y; x#y = x*!y + y*!x">  
-    </div>
-    <div style="margin-bottom: 6px;">
-        <span style="font: 1em  arial; font-weight: 500;">R = </span> 
-        <input type="text" id="expr" style="width: 226px;" value="">                
-        <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
-        <span id="exprRes"></span> 
-    </div>
-    <!-- invisible test suit -->
-    <div style="display:none; margin-bottom: 6px;">
-        <input type="text" id="inputTest" style="width: 40px;" value="38">
-        <button id="btnTest" style="background-color: whitesmoke; color: black">T</button>
-        <span id="info" style="width: 200px;" ></span>    
-    </div>
+        <div style="margin-bottom: 6px;">
+            <span style="color: red; font: 1em  arial; font-weight: 500;">A = </span> 
+            <input type="text" id="inputA" value="">              
+        </div>
+        <div style="margin-bottom: 6px;">
+            <span style="color: green; font: 1em  arial; font-weight: 500;">B = </span> 
+            <input type="text" id="inputB" value="">              
+        </div>
+        <div style="margin-bottom: 6px;">
+            <span style="color: blue; font: 1em  arial; font-weight: 500;">C = </span> 
+            <input type="text" id="inputC" value="">              
+        </div>
+        <div style="margin-bottom: 6px;">
+            <span style="font: 1em  arial; font-weight: 500;">O = </span> 
+            <input type="text" id="oper" value="x = y = !x*!y + x*y;   x - y = x * !y; x#y = x*!y + y*!x">  
+        </div>
+        <div style="margin-bottom: 6px;">
+            <span style="font: 1em  arial; font-weight: 500;">E = </span> 
+            <input type="text" id="expr" style="width: 226px;" value="">                
+            <button id="btnGo" style="background-color: whitesmoke; color: black">=</button>
+            <span id="exprRes"></span> 
+        </div>
+        <!-- invisible test suit  -- display:none; -->
+        <div style="display:none; margin-bottom: 6px;"> 
+            <input type="text" id="inputTest" style="width: 40px;" value="25">
+            <button id="btnTest" style="background-color: whitesmoke; color: black">T</button>
+            <span id="info" style="width: 200px;" ></span>    
+        </div>
 
-    <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>
-        
-
+        <canvas id="canvas" width="512" height="256" style="border: solid thin"></canvas>
 </div>
+
 
 <!-- learning -->
 <div class="col-sm">

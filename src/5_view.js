@@ -3,7 +3,7 @@
 function drawSets(matrix) 
 {
     const ctx = canvas.getContext("2d");
-    clear(ctx);
+    clearCanvas(ctx);
     ctx.lineWidth = 2;
     // рисуем круги в порядке возрастания радиуса 
     let sets = [setA, setB, setC].sort((a,b) => {
@@ -37,7 +37,7 @@ function drawSets(matrix)
     }   
 }
 
-function clear(ctx) {
+function clearCanvas(ctx) {
     ctx.fillStyle = "gray";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
@@ -69,7 +69,7 @@ function strokeSet(ctx, set) {
 function drawNumbers(setR) {
     
     const ctx = canvas.getContext("2d");
-    clear(ctx);
+    clearCanvas(ctx);
     ctx.font = '36px arial';
     ctx.textAlign = "center" ;
     ctx.textBaseline = "middle" ;
@@ -112,7 +112,7 @@ bears.forEach((img, i) => img.src = `pic/bear${i}.png`)
 function drawExtrems(setR) 
 {
     const ctx = canvas.getContext("2d");
-    clear(ctx);
+    clearCanvas(ctx);
     //  
     let sets = [setA, setB, setC, setR];
     let maxHeigh = Math.max(...sets.map(s => +s.str));

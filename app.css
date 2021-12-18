@@ -20,5 +20,8 @@
 }
 #exprRes {
    width: 226px;
-
+}
+.sectionLink {
+   font-style: italic;
+   cursor: pointer;
 }

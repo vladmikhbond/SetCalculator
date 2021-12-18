@@ -11,6 +11,7 @@ function refresh() {
     let matrixR = null;
     let convert = new Convert();
     
+    // operation substitutions
     let expression = $expr.value;
     if (expression != "") {
         expression = replaceAll(expression.toLowerCase(), "*+~uo", ['&','|','!','1','0']);
@@ -19,7 +20,6 @@ function refresh() {
         }
     }
     
-
     switch (STATE) {
         case 0: // SETS
         convert.fromSet();    
@@ -31,7 +31,7 @@ function refresh() {
         drawSets(matrixR);   
         break;
 
-        case 1: // NUMBERS
+        case 1: case -1: // NUMBERS
         convert.fromNumber();
         setR = calcExpression(setA, setB, setC, expression);
         convert.toNumber(setR);
@@ -52,11 +52,39 @@ function refresh() {
 // test for sets only
 btnTest.addEventListener('click', function(e) {
     let i = +inputTest.value;
-    let [a,b,c] = stages[i][2].split('-');
+    setStageByIdx(i)
+})
+
+function setStageByIdx(idx) {
+    let [a,b,c] = stages[idx][2].split('-');
     inputA.value = a ? a : "";
     inputB.value = b ? b : "";
     inputC.value = c ? c : "";
+    setA = new XSet("red",   inputA.value);
+    setB = new XSet("green", inputB.value);
+    setC = new XSet("blue",  inputC.value)
     setStage(setA, setB, setC);
     drawSets();
-    inputTest.value = i + 1;  
-})
+    $exprRes.innerHTML = `${idx}) ${stages[idx][0]}`;
+}
+
+
+
+
+let timer = null;
+
+function accordeon() {
+    let i = 1;
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+        return;
+    }
+    timer = setInterval(() => { 
+        setStageByIdx(i++);
+        if (i >= stages.length) {
+            clearInterval(timer);
+            timer = null;
+        }
+    }, 1500);
+}
